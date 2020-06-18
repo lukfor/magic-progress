@@ -2,9 +2,9 @@
 
 A framework for simple progress monitoring on the console.
 
-# Getting started
+## Getting started
 
-## Dependency
+### Dependency
 
 Add the following repository to your pom.xml or gradle file:
 
@@ -26,7 +26,7 @@ Add the following dependency:
 </dependency>
 ```
 
-## InteractiveProgressBar
+### InteractiveProgressBar
 
 ````java
 ITaskWithProgress task = new ITaskWithProgress() {
