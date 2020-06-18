@@ -2,7 +2,7 @@ package lukfor.progress;
 
 import java.io.PrintStream;
 
-public class ProgressBarRenderer {
+public class InteractiveProgressBarRenderer implements IProgressBarRenderer {
 
 	private ProgressBar bar;
 
@@ -14,10 +14,14 @@ public class ProgressBarRenderer {
 
 	private PrintStream target = System.out;
 
-	public ProgressBarRenderer(ProgressBar bar, IProgressBarStyle style) {
+	public InteractiveProgressBarRenderer(IProgressBarStyle style) {
+		this.style = style;
+	}
+	
+	@Override
+	public void setProgressBar(ProgressBar bar) {
 		this.bar = bar;
 		this.bar.addRenderer(this);
-		this.style = style;
 	}
 
 	public void setTarget(PrintStream target) {
@@ -26,6 +30,10 @@ public class ProgressBarRenderer {
 
 	public PrintStream getTarget() {
 		return target;
+	}
+	
+	public void begin() {
+		
 	}
 
 	public void render() {

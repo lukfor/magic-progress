@@ -1,16 +1,20 @@
 package lukfor.progress;
 
-import lukfor.progress.styles.DefaultProgressBarStyle;
-
 public class ProgressMonitor {
 
 	public static void run(ITaskWithProgress task) {
-		run(task, new DefaultProgressBarStyle());
+		IProgressBarRenderer renderer = new SimpleProgressBarRenderer();
+		run(task, renderer);
 	}
 
 	public static void run(ITaskWithProgress task, IProgressBarStyle style) {
+		IProgressBarRenderer renderer = new InteractiveProgressBarRenderer(style);
+		run(task, renderer);
+	}
+
+	public static void run(ITaskWithProgress task, IProgressBarRenderer renderer) {
 		ProgressBar bar = new ProgressBar();
-		ProgressBarRenderer renderer = new ProgressBarRenderer(bar, style);
+		renderer.setProgressBar(bar);
 		task.run(bar);
 		renderer.finish();
 	}

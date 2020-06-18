@@ -10,13 +10,16 @@ public class ProgressBar implements IProgressMonitor {
 
 	private long startTime = -1;
 
-	private ProgressBarRenderer renderer;
+	private IProgressBarRenderer renderer;
 
 	@Override
 	public void beginTask(String name, int totalWork) {
 		this.task = name;
 		this.total = totalWork;
 		this.startTime = System.currentTimeMillis();
+		if (renderer != null) {
+			renderer.begin();
+		}
 	}
 
 	@Override
@@ -79,7 +82,7 @@ public class ProgressBar implements IProgressMonitor {
 		}
 	}
 
-	public void addRenderer(ProgressBarRenderer renderer) {
+	public void addRenderer(IProgressBarRenderer renderer) {
 		this.renderer = renderer;
 	}
 

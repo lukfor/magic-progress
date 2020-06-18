@@ -1,6 +1,7 @@
 package lukfor.progress;
 
 import lukfor.progress.styles.ModernProgressBarStyle;
+import lukfor.progress.styles.DefaultProgressBarStyle;
 import lukfor.progress.styles.MinimalProgressBarStyle;
 
 public class Showcase {
@@ -30,6 +31,8 @@ public class Showcase {
 		};
 
 		ProgressMonitor.run(task);
+		System.out.println("\n");
+		ProgressMonitor.run(task, new DefaultProgressBarStyle());
 		System.out.println("\n");
 		ProgressMonitor.run(task, new ModernProgressBarStyle());
 		System.out.println("\n");

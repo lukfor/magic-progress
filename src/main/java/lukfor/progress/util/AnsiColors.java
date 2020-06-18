@@ -42,7 +42,7 @@ public class AnsiColors {
 		return color(string, ANSI_RED);
 	}
 
-	public static String gree(String string) {
+	public static String green(String string) {
 		return color(string, ANSI_GREEN);
 	}
 

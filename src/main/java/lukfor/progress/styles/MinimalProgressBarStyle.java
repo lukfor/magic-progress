@@ -1,6 +1,7 @@
 package lukfor.progress.styles;
 
 import lukfor.progress.IProgressBarStyle;
+import lukfor.progress.util.TimeUtil;
 
 public class MinimalProgressBarStyle implements IProgressBarStyle {
 
@@ -48,25 +49,7 @@ public class MinimalProgressBarStyle implements IProgressBarStyle {
 	}
 
 	public String getTime(long time) {
-
-		long sec = time / 1000 % 60;
-		String secString = "" + sec;
-		if (sec < 10) {
-			secString = "0" + sec;
-		}
-
-		long min = time / 1000 / 60 % 60;
-		String minString = "" + min;
-		if (min < 10) {
-			minString = "0" + min;
-		}
-
-		long hours = time / 1000 / 60 / 60;
-		String hoursString = "" + hours;
-		if (hours < 10) {
-			hoursString = "0" + hours;
-		}
-		return "[" + hoursString + ":" + minString + ":" + secString + "] ";
+		return "[" + TimeUtil.format(time) + "]";
 	}
 
 	// TODO: label, time, bar position. layout?
