@@ -66,7 +66,7 @@ public class DefaultProgressBarStyle implements IProgressBarStyle {
 		this.width = width;
 	}
 
-	public String getLabel(int worked, int total) {
+	public String getLabel(long worked, long total) {
 
 		// TODO: style. raw, percentage, bytes
 

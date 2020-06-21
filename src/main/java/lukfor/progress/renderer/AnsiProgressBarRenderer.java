@@ -66,7 +66,7 @@ public class AnsiProgressBarRenderer implements IProgressBarRenderer {
 		content += style.getBorderLeft();
 		int width = style.getWidth() - style.getBorderLeft().length() - style.getBorderRight().length();
 
-		int progress = (width * bar.getWorked()) / bar.getTotal();
+		int progress = (int) ((width * bar.getWorked()) / bar.getTotal());
 		content += repeat(style.getProgress(), progress);
 		String tick = style.getTick();
 

@@ -2,9 +2,9 @@ package lukfor.progress;
 
 public class ProgressBar implements IProgressMonitor {
 
-	private int worked = 0;
+	private long worked = 0;
 
-	private int total;
+	private long total;
 
 	private String task;
 
@@ -13,7 +13,7 @@ public class ProgressBar implements IProgressMonitor {
 	private IProgressBarRenderer renderer;
 
 	@Override
-	public void beginTask(String name, int totalWork) {
+	public void beginTask(String name, long totalWork) {
 		this.task = name;
 		this.total = totalWork;
 		this.startTime = System.currentTimeMillis();
@@ -24,12 +24,6 @@ public class ProgressBar implements IProgressMonitor {
 
 	@Override
 	public void done() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void internalWorked(double work) {
 		// TODO Auto-generated method stub
 
 	}
@@ -59,18 +53,18 @@ public class ProgressBar implements IProgressMonitor {
 	}
 
 	@Override
-	public void worked(int work) {
-		worked++;
+	public void worked(long work) {
+		worked += work;
 		if (renderer != null) {
 			renderer.render();
 		}
 	}
 
-	public int getWorked() {
+	public long getWorked() {
 		return worked;
 	}
 
-	public int getTotal() {
+	public long getTotal() {
 		return total;
 	}
 

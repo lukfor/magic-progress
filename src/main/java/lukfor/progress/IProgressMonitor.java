@@ -4,11 +4,9 @@ public interface IProgressMonitor {
 
 	public final static int UNKNOWN = -1;
 
-	public void beginTask(String name, int totalWork);
+	public void beginTask(String name, long totalWork);
 
 	public void done();
-
-	public void internalWorked(double work);
 
 	public boolean isCanceled();
 
@@ -18,6 +16,6 @@ public interface IProgressMonitor {
 
 	public void subTask(String name);
 
-	public void worked(int work);
+	public void worked(long work);
 
 }

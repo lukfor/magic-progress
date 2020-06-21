@@ -24,7 +24,7 @@ public interface IProgressBarStyle {
 
 	public int getWidth();
 
-	public String getLabel(int worked, int total);
+	public String getLabel(long worked, long total);
 
 	public String getTime(long time);
 
