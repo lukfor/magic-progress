@@ -1,7 +1,9 @@
-package lukfor.progress;
+package lukfor.progress.renderer;
 
 import java.io.PrintStream;
 
+import lukfor.progress.IProgressBarRenderer;
+import lukfor.progress.ProgressBar;
 import lukfor.progress.util.AnsiColors;
 import lukfor.progress.util.TimeUtil;
 

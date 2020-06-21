@@ -2,6 +2,9 @@ package lukfor.progress;
 
 import java.io.PrintStream;
 
+import lukfor.progress.renderer.AnsiProgressBarRenderer;
+import lukfor.progress.renderer.SimpleProgressBarRenderer;
+import lukfor.progress.styles.DefaultProgressBarStyle;
 import lukfor.progress.util.AnsiColors;
 
 public class ProgressMonitor {
@@ -11,12 +14,16 @@ public class ProgressMonitor {
 	private static PrintStream target = System.out;
 
 	public static void run(ITaskWithProgress task) {
-		IProgressBarRenderer renderer = new SimpleProgressBarRenderer();
-		run(task, renderer);
+		run(task, new DefaultProgressBarStyle());
 	}
-
+	
 	public static void run(ITaskWithProgress task, IProgressBarStyle style) {
-		IProgressBarRenderer renderer = new InteractiveProgressBarRenderer(style);
+		IProgressBarRenderer renderer;
+		if (ansiSupport) {
+			 renderer = new AnsiProgressBarRenderer(style);
+		} else {
+			renderer = new SimpleProgressBarRenderer();
+		}
 		run(task, renderer);
 	}
 

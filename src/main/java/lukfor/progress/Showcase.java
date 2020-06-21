@@ -1,15 +1,11 @@
 package lukfor.progress;
 
-import lukfor.progress.styles.ModernProgressBarStyle;
-import lukfor.progress.styles.DefaultProgressBarStyle;
-import lukfor.progress.styles.MinimalProgressBarStyle;
-
 public class Showcase {
 
 	public static void main(String[] args) {
-		
-		//example: "--no-ansi" flag
-		ProgressMonitor.setAnsiSupport(false);
+
+		// example: "--no-ansi" flag
+		ProgressMonitor.setAnsiSupport(true);
 		ProgressMonitor.setTarget(System.err);
 
 		ITaskWithProgress task = new ITaskWithProgress() {
@@ -34,11 +30,11 @@ public class Showcase {
 
 		ProgressMonitor.run(task);
 		System.out.println("\n");
-		ProgressMonitor.run(task, new DefaultProgressBarStyle());
+		ProgressMonitor.run(task, IProgressBarStyle.DEFAULT);
 		System.out.println("\n");
-		ProgressMonitor.run(task, new ModernProgressBarStyle());
+		ProgressMonitor.run(task, IProgressBarStyle.MODERN);
 		System.out.println("\n");
-		ProgressMonitor.run(task, new MinimalProgressBarStyle());
+		ProgressMonitor.run(task, IProgressBarStyle.MINIMAL);
 
 	}
 

@@ -1,23 +1,27 @@
-package lukfor.progress;
+package lukfor.progress.renderer;
 
 import java.io.PrintStream;
 
-public class InteractiveProgressBarRenderer implements IProgressBarRenderer {
+import lukfor.progress.IProgressBarRenderer;
+import lukfor.progress.IProgressBarStyle;
+import lukfor.progress.ProgressBar;
+
+public class AnsiProgressBarRenderer implements IProgressBarRenderer {
 
 	private ProgressBar bar;
 
 	private IProgressBarStyle style;
 
-	private float FRAME_RATE = 1 / 10f;
+	public static float FRAME_RATE = 1 / 10f;
 
 	private long renderTime = 0;
 
 	private PrintStream target = System.out;
 
-	public InteractiveProgressBarRenderer(IProgressBarStyle style) {
+	public AnsiProgressBarRenderer(IProgressBarStyle style) {
 		this.style = style;
 	}
-	
+
 	@Override
 	public void setProgressBar(ProgressBar bar) {
 		this.bar = bar;
@@ -31,9 +35,9 @@ public class InteractiveProgressBarRenderer implements IProgressBarRenderer {
 	public PrintStream getTarget() {
 		return target;
 	}
-	
+
 	public void begin() {
-		
+
 	}
 
 	public void render() {
