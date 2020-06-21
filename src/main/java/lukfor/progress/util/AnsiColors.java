@@ -22,6 +22,10 @@ public class AnsiColors {
 
 	public static final String ANSI_WHITE = "\u001B[37m";
 
+	public static void enable() {
+		active = true;
+	}
+	
 	public static void disable() {
 		active = false;
 	}

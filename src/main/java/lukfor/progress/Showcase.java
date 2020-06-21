@@ -7,8 +7,10 @@ import lukfor.progress.styles.MinimalProgressBarStyle;
 public class Showcase {
 
 	public static void main(String[] args) {
-
-		// AnsiColors.disable();
+		
+		//example: "--no-ansi" flag
+		ProgressMonitor.setAnsiSupport(false);
+		ProgressMonitor.setTarget(System.err);
 
 		ITaskWithProgress task = new ITaskWithProgress() {
 
