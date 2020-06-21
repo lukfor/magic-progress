@@ -1,6 +1,6 @@
 # magic-progress
 
-![Java CI with Maven](https://github.com/lukfor/magic-progress/workflows/Java%20CI%20with%20Maven/badge.svg)
+![build](https://github.com/lukfor/magic-progress/workflows/build/badge.svg)
 
 > A framework for simple progress monitoring on the console.
 
