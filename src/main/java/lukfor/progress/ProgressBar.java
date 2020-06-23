@@ -76,7 +76,7 @@ public class ProgressBar implements IProgressMonitor {
 		}
 	}
 
-	public void addRenderer(IProgressBarRenderer renderer) {
+	public void setRenderer(IProgressBarRenderer renderer) {
 		this.renderer = renderer;
 	}
 

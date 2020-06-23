@@ -1,45 +1,45 @@
 package lukfor.progress.renderer;
 
-import java.io.PrintStream;
-
-import lukfor.progress.IProgressBarRenderer;
+import lukfor.progress.AbstractProgressBarRenderer;
+import lukfor.progress.IProgressBarLabelProvider;
 import lukfor.progress.IProgressBarStyle;
-import lukfor.progress.ProgressBar;
+import lukfor.progress.labels.DefaultLabelProvider;
+import lukfor.progress.labels.TimeLabelProvider;
+import lukfor.progress.styles.DefaultProgressBarStyle;
 
-public class AnsiProgressBarRenderer implements IProgressBarRenderer {
+public class AnsiProgressBarRenderer extends AbstractProgressBarRenderer {
 
-	private ProgressBar bar;
+	private IProgressBarStyle style = new DefaultProgressBarStyle();
 
-	private IProgressBarStyle style;
+	protected IProgressBarLabelProvider labelLeft = new TimeLabelProvider();
+
+	protected IProgressBarLabelProvider labelRight = new DefaultLabelProvider();
 
 	public static float FRAME_RATE = 1 / 10f;
 
 	private long renderTime = 0;
 
-	private PrintStream target = System.out;
+	public AnsiProgressBarRenderer() {
+
+	}
 
 	public AnsiProgressBarRenderer(IProgressBarStyle style) {
 		this.style = style;
 	}
 
+	public AnsiProgressBarRenderer(IProgressBarStyle style, IProgressBarLabelProvider labelLeft,
+			IProgressBarLabelProvider labelRight) {
+		this.style = style;
+		this.labelLeft = labelLeft;
+		this.labelRight = labelRight;
+	}
+
 	@Override
-	public void setProgressBar(ProgressBar bar) {
-		this.bar = bar;
-		this.bar.addRenderer(this);
-	}
-
-	public void setTarget(PrintStream target) {
-		this.target = target;
-	}
-
-	public PrintStream getTarget() {
-		return target;
-	}
-
 	public void begin() {
 
 	}
 
+	@Override
 	public void render() {
 
 		float delta = (System.currentTimeMillis() - renderTime) / 1000f;
@@ -56,11 +56,17 @@ public class AnsiProgressBarRenderer implements IProgressBarRenderer {
 
 	}
 
+	@Override
+	public void finish() {
+		String content = getAnsiString();
+		target.print("\r");
+		target.println(content);
+	}
+
 	public String getAnsiString() {
 		String content = "";
-		String time = style.getTime(bar.getExecutionTime());
-		if (time != null) {
-			content += time;
+		if (labelLeft != null) {
+			content += labelLeft.getLabel(bar);
 		}
 
 		content += style.getBorderLeft();
@@ -83,19 +89,12 @@ public class AnsiProgressBarRenderer implements IProgressBarRenderer {
 		content += repeat(style.getEmpty(), width - progress - ((tick != null) ? 1 : 0));
 		content += style.getBorderRight();
 
-		String label = style.getLabel(bar.getWorked(), bar.getTotal());
-		if (label != null) {
-			content += label;
+		if (labelRight != null) {
+			content += labelRight.getLabel(bar);
 		}
 
 		return content;
 
-	}
-
-	public void finish() {
-		String content = getAnsiString();
-		target.print("\r");
-		target.println(content);
 	}
 
 	protected String repeat(String string, int count) {
@@ -104,6 +103,22 @@ public class AnsiProgressBarRenderer implements IProgressBarRenderer {
 			result += string;
 		}
 		return result;
+	}
+
+	public void setLabelLeft(IProgressBarLabelProvider labelLeft) {
+		this.labelLeft = labelLeft;
+	}
+
+	public IProgressBarLabelProvider getLabelLeft() {
+		return labelLeft;
+	}
+
+	public void setLabelRight(IProgressBarLabelProvider labelRight) {
+		this.labelRight = labelRight;
+	}
+
+	public IProgressBarLabelProvider getLabelRight() {
+		return labelRight;
 	}
 
 }

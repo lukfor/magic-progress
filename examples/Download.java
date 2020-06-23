@@ -7,8 +7,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import lukfor.progress.*;
+import lukfor.progress.labels.*;
+import lukfor.progress.renderer.AnsiProgressBarRenderer;
+import lukfor.progress.renderer.*;
 import lukfor.progress.tasks.AbstractFileTask;
 import lukfor.progress.tasks.AbstractUrlTask;
+import lukfor.progress.tasks.DownloadTask;
 
 public class Download {
 
@@ -19,29 +23,15 @@ public class Download {
 		ProgressMonitor.setTarget(System.err);
 
 		String url = "http://speedtest.tele2.net/1GB.zip";
+		String file = "test.zip";
 
-		AbstractUrlTask task = new AbstractUrlTask(url) {
+		DownloadTask task = new DownloadTask(url, file);
 
-			@Override
-			public void process(InputStream stream) throws IOException {
+		AnsiProgressBarRenderer renderer = new AnsiProgressBarRenderer();
+		renderer.setLabelRight(UnitLabelProvider.FILE_SIZE_MB);
+		renderer.setLabelLeft(new EtaTimeLabelProvider());
 
-				BufferedInputStream bis = new BufferedInputStream(stream);
-				byte[] buffer = new byte[1024];
-				int count = 0;
-				while ((count = bis.read(buffer, 0, 1024)) != -1) {
-
-				}
-				bis.close();
-
-			}
-		};
-
-		System.out.println("\n");
-		System.out.println("\n");
-		ProgressMonitor.run(task);
-		System.out.println("\n");
-		System.out.println("\n");
-		System.out.println("\n");
+		ProgressMonitor.run(task, renderer);
 
 	}
 

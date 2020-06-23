@@ -1,7 +1,6 @@
 package lukfor.progress.styles;
 
 import lukfor.progress.IProgressBarStyle;
-import lukfor.progress.util.TimeUtil;
 
 public class MinimalProgressBarStyle implements IProgressBarStyle {
 
@@ -40,18 +39,5 @@ public class MinimalProgressBarStyle implements IProgressBarStyle {
 	public int getWidth() {
 		return width;
 	}
-
-	public String getLabel(long worked, long total) {
-
-		// TODO: style. raw, percentage, bytes
-
-		return " " + worked + "/" + total;
-	}
-
-	public String getTime(long time) {
-		return "[" + TimeUtil.format(time) + "]";
-	}
-
-	// TODO: label, time, bar position. layout?
 
 }

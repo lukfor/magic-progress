@@ -2,7 +2,6 @@ package lukfor.progress.styles;
 
 import lukfor.progress.IProgressBarStyle;
 import lukfor.progress.util.AnsiColors;
-import lukfor.progress.util.TimeUtil;
 
 public class DefaultProgressBarStyle implements IProgressBarStyle {
 
@@ -65,18 +64,5 @@ public class DefaultProgressBarStyle implements IProgressBarStyle {
 	public void setWidth(int width) {
 		this.width = width;
 	}
-
-	public String getLabel(long worked, long total) {
-
-		// TODO: style. raw, percentage, bytes
-
-		return " " + worked + "/" + total;
-	}
-
-	public String getTime(long time) {
-		return "[" + TimeUtil.format(time) + "]";
-	}
-
-	// TODO: label, time, bar position. layout?
 
 }
