@@ -12,27 +12,6 @@ public class Showcase {
 		ProgressMonitor.setAnsiSupport(true);
 		ProgressMonitor.setTarget(System.err);
 
-		ITaskWithProgress task = new ITaskWithProgress() {
-
-			@Override
-			public void run(IProgressMonitor monitor) {
-				monitor.beginTask("Downloading Data......", 800);
-				for (int i = 0; i < 800; i++) {
-					monitor.worked(1);
-					try {
-						Thread.sleep(10);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-				monitor.done();
-
-			}
-		};
-
-		System.out.println("\n");
 		System.out.println("\n");
 		
 		ITaskWithProgress task1 = createTask(500);
@@ -46,7 +25,6 @@ public class Showcase {
 		
 		ITaskWithProgress task3 = createTask(500);
 		ProgressMonitor.run(task3, IProgressBarStyle.MINIMAL);
-		System.out.println("\n");
 		System.out.println("\n");
 
 	}
