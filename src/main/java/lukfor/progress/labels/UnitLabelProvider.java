@@ -1,6 +1,7 @@
 package lukfor.progress.labels;
 
 import lukfor.progress.IProgressBarLabelProvider;
+import lukfor.progress.IProgressMonitor;
 import lukfor.progress.ProgressBar;
 
 public class UnitLabelProvider implements IProgressBarLabelProvider {
@@ -10,6 +11,8 @@ public class UnitLabelProvider implements IProgressBarLabelProvider {
 	private float factor;
 
 	public static String FORMAT = " %.2f %s/%.2f %s";
+
+	public static String FORMAT_UNKNOWN = " %.2f %s";
 
 	public static UnitLabelProvider FILE_SIZE_MB = new UnitLabelProvider("MB", 1024 * 1024);
 
@@ -24,9 +27,13 @@ public class UnitLabelProvider implements IProgressBarLabelProvider {
 	public String getLabel(ProgressBar progressBar) {
 
 		float worked = progressBar.getWorked() / factor;
-		float total = progressBar.getTotal() / factor;
 
-		return String.format(FORMAT, worked, unit, total, unit);
+		if (progressBar.getTotal() != IProgressMonitor.UNKNOWN) {
+			float total = progressBar.getTotal() / factor;
+			return String.format(FORMAT, worked, unit, total, unit);
+		} else {
+			return String.format(FORMAT_UNKNOWN, worked, unit);
+		}
 
 	}
 

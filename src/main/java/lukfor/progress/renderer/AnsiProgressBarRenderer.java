@@ -3,6 +3,7 @@ package lukfor.progress.renderer;
 import lukfor.progress.AbstractProgressBarRenderer;
 import lukfor.progress.IProgressBarLabelProvider;
 import lukfor.progress.IProgressBarStyle;
+import lukfor.progress.IProgressMonitor;
 import lukfor.progress.labels.DefaultLabelProvider;
 import lukfor.progress.labels.TimeLabelProvider;
 import lukfor.progress.styles.DefaultProgressBarStyle;
@@ -16,6 +17,8 @@ public class AnsiProgressBarRenderer extends AbstractProgressBarRenderer {
 	protected IProgressBarLabelProvider labelRight = new DefaultLabelProvider();
 
 	public static float FRAME_RATE = 1 / 10f;
+
+	public static float SPEED = 1 / 100f;
 
 	private long renderTime = 0;
 
@@ -72,21 +75,41 @@ public class AnsiProgressBarRenderer extends AbstractProgressBarRenderer {
 		content += style.getBorderLeft();
 		int width = style.getWidth() - style.getBorderLeft().length() - style.getBorderRight().length();
 
-		int progress = (int) ((width * bar.getWorked()) / bar.getTotal());
-		content += repeat(style.getProgress(), progress);
 		String tick = style.getTick();
 
-		// no tick needed when done.
-		if (bar.getWorked() == bar.getTotal()) {
-			tick = null;
-		}
-		if (tick != null) {
-			content += tick;
+		if (bar.getTotal() == IProgressMonitor.UNKNOWN) {
+			int frame = (int) (bar.getExecutionTime() * SPEED);
+			int position = frame % width;
+			if (position > 0) {
+				content += repeat(style.getEmpty(), position - 1);
+			}
+			if (tick != null) {
+				content += tick;
+			} else {
+				content += style.getProgress();
+			}
+			if (width > position) {
+				content += repeat(style.getEmpty(), width - position - (position == 0 ? 1 : 0));
+			}
+		} else {
+
+			int progress = (int) ((width * bar.getWorked()) / bar.getTotal());
+			content += repeat(style.getProgress(), progress);
+
+			// no tick needed when done.
+			if (bar.getWorked() == bar.getTotal()) {
+				tick = null;
+			}
+			if (tick != null) {
+				content += tick;
+			}
+
+			// if complete, no tick but progress
+
+			content += repeat(style.getEmpty(), width - progress - ((tick != null) ? 1 : 0));
+
 		}
 
-		// if complete, no tick but progress
-
-		content += repeat(style.getEmpty(), width - progress - ((tick != null) ? 1 : 0));
 		content += style.getBorderRight();
 
 		if (labelRight != null) {

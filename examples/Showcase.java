@@ -14,28 +14,58 @@ public class Showcase {
 
 		System.out.println("\n");
 		
-		ITaskWithProgress task1 = createTask(500);
-		ProgressMonitor.run(task1);
+		ITaskWithProgress task0 = createTask(500);
+		ProgressMonitor.run(task0);
 		
 		System.out.println("\n");
 		
+		ITaskWithProgress task1 = createTaskUnknown(500);
+		ProgressMonitor.run(task1, IProgressBarStyle.MODERN);
+		
+		System.out.println("\n");	
+		
 		ITaskWithProgress task2 = createTask(500);
 		ProgressMonitor.run(task2, IProgressBarStyle.MODERN);
+
 		System.out.println("\n");
 		
 		ITaskWithProgress task3 = createTask(500);
 		ProgressMonitor.run(task3, IProgressBarStyle.MINIMAL);
+		
 		System.out.println("\n");
 
 	}
 
 	public static ITaskWithProgress createTask(int max) {
-
+		
 		return new ITaskWithProgress() {
 
 			@Override
 			public void run(IProgressMonitor monitor) {
 				monitor.beginTask("Downloading Data......", max);
+				for (int i = 0; i < max; i++) {
+					monitor.worked(1);
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+
+				monitor.done();
+
+			}
+		};
+
+	}
+	
+	public static ITaskWithProgress createTaskUnknown(int max) {
+		
+		return new ITaskWithProgress() {
+
+			@Override
+			public void run(IProgressMonitor monitor) {
+				monitor.beginTask("Downloading Data......", -1);
 				for (int i = 0; i < max; i++) {
 					monitor.worked(1);
 					try {
