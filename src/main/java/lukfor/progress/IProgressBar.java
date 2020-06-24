@@ -1,6 +1,6 @@
 package lukfor.progress;
 
-public interface IProgressMonitor {
+public interface IProgressBar {
 
 	public final static int UNKNOWN = -1;
 

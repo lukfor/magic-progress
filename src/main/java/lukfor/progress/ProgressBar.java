@@ -1,6 +1,6 @@
 package lukfor.progress;
 
-public class ProgressBar implements IProgressMonitor {
+public class ProgressBar implements IProgressBar {
 
 	private long worked = 0;
 

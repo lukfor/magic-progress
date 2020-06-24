@@ -2,9 +2,6 @@ package lukfor.progress;
 
 import java.io.PrintStream;
 
-import lukfor.progress.renderer.AnsiProgressBarRenderer;
-import lukfor.progress.renderer.SimpleProgressBarRenderer;
-import lukfor.progress.styles.DefaultProgressBarStyle;
 import lukfor.progress.util.AnsiColors;
 
 public class ProgressMonitor {
@@ -14,17 +11,11 @@ public class ProgressMonitor {
 	private static PrintStream target = System.out;
 
 	public static void run(ITaskWithProgress task) {
-		run(task, new DefaultProgressBarStyle());
+		run(task, new ProgressBarBuilder());
 	}
-	
-	public static void run(ITaskWithProgress task, IProgressBarStyle style) {
-		IProgressBarRenderer renderer;
-		if (ansiSupport) {
-			 renderer = new AnsiProgressBarRenderer(style);
-		} else {
-			renderer = new SimpleProgressBarRenderer();
-		}
-		run(task, renderer);
+
+	public static void run(ITaskWithProgress task, ProgressBarBuilder builder) {
+		run(task, builder.build());
 	}
 
 	public static void run(ITaskWithProgress task, IProgressBarRenderer renderer) {
@@ -36,12 +27,12 @@ public class ProgressMonitor {
 	}
 
 	public static void setAnsiSupport(boolean ansiSupport) {
-		ProgressMonitor.ansiSupport = ansiSupport;
 		if (ansiSupport) {
 			AnsiColors.enable();
 		} else {
 			AnsiColors.disable();
 		}
+		ProgressMonitor.ansiSupport = ansiSupport;
 	}
 
 	public static boolean isAnsiSupport() {
@@ -55,5 +46,4 @@ public class ProgressMonitor {
 	public static PrintStream getTarget() {
 		return target;
 	}
-
 }

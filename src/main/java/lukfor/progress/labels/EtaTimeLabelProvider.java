@@ -1,7 +1,7 @@
 package lukfor.progress.labels;
 
 import lukfor.progress.IProgressBarLabelProvider;
-import lukfor.progress.IProgressMonitor;
+import lukfor.progress.IProgressBar;
 import lukfor.progress.ProgressBar;
 import lukfor.progress.util.TimeUtil;
 
@@ -10,7 +10,7 @@ public class EtaTimeLabelProvider implements IProgressBarLabelProvider {
 	@Override
 	public String getLabel(ProgressBar progressBar) {
 
-		if (progressBar.getTotal() == IProgressMonitor.UNKNOWN) {
+		if (progressBar.getTotal() == IProgressBar.UNKNOWN) {
 
 			return "ETA: unkown";
 

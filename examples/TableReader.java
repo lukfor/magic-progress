@@ -32,7 +32,7 @@ public class TableReader {
 		SumTask task2 = new SumTask(file);
 
 		AnsiProgressBarRenderer renderer = new AnsiProgressBarRenderer();
-		renderer.setLabelRight(UnitLabelProvider.FILE_SIZE_MB);
+		renderer.setRight(UnitLabelProvider.FILE_SIZE_MB);
 
 		System.out.println("Download file:");
 		ProgressMonitor.run(task, renderer);

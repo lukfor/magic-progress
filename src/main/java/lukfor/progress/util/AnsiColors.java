@@ -29,6 +29,14 @@ public class AnsiColors {
 	public static void disable() {
 		active = false;
 	}
+	
+	public static boolean isEnabled() {
+		return active;
+	}
+	
+	public static boolean isDisabled() {
+		return !active;
+	}
 
 	public static String color(String string, String color) {
 		if (active) {

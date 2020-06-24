@@ -1,8 +1,6 @@
 package lukfor.progress.styles;
 
-import lukfor.progress.IProgressBarStyle;
-
-public class MinimalProgressBarStyle implements IProgressBarStyle {
+public class MinimalProgressBarStyle extends AbstractProgressBarStyle {
 
 	private String progress = "=";
 

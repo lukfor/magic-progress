@@ -4,7 +4,7 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import lukfor.progress.IProgressMonitor;
+import lukfor.progress.IProgressBar;
 
 public final class CountingInputStream extends FilterInputStream {
 
@@ -12,9 +12,9 @@ public final class CountingInputStream extends FilterInputStream {
 
 	private long mark = -1;
 
-	private IProgressMonitor monitor;
+	private IProgressBar monitor;
 
-	public CountingInputStream(InputStream in, IProgressMonitor monitor) {
+	public CountingInputStream(InputStream in, IProgressBar monitor) {
 		super(in);
 		this.monitor = monitor;
 	}

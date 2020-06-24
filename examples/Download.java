@@ -28,8 +28,8 @@ public class Download {
 		DownloadTask task = new DownloadTask(url, file);
 
 		AnsiProgressBarRenderer renderer = new AnsiProgressBarRenderer();
-		renderer.setLabelRight(UnitLabelProvider.FILE_SIZE_MB);
-		renderer.setLabelLeft(new EtaTimeLabelProvider());
+		renderer.setRight(UnitLabelProvider.FILE_SIZE_MB);
+		renderer.setLeft(new EtaTimeLabelProvider());
 
 		ProgressMonitor.run(task, renderer);
 
