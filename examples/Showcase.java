@@ -20,17 +20,17 @@ public class Showcase {
 		System.out.println("\n");
 
 		ITaskWithProgress task1 = createTaskUnknown(500);
-		ProgressMonitor.run(task1, ProgressBarBuilder.Default);
+		ProgressMonitor.run(task1, ProgressBarBuilder.DEFAULT);
 
 		System.out.println("\n");
 
 		ITaskWithProgress task2 = createTask(500);
-		ProgressMonitor.run(task2, ProgressBarBuilder.Modern);
+		ProgressMonitor.run(task2, ProgressBarBuilder.MODERN);
 
 		System.out.println("\n");
 
 		ITaskWithProgress task3 = createTask(500);
-		ProgressMonitor.run(task3, ProgressBarBuilder.Minimal);
+		ProgressMonitor.run(task3, ProgressBarBuilder.MINIMAL);
 
 		System.out.println("\n");
 

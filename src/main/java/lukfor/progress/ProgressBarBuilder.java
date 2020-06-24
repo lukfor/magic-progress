@@ -19,13 +19,13 @@ public class ProgressBarBuilder {
 
 	public static final IProgressBarStyle MINIMAL_STYLE = new MinimalProgressBarStyle();
 
-	public static ProgressBarBuilder Default = new ProgressBarBuilder().style(DEFAULT_STYLE);
+	public static final ProgressBarBuilder DEFAULT = new ProgressBarBuilder().style(DEFAULT_STYLE);
 
-	public static ProgressBarBuilder Modern = new ProgressBarBuilder().style(MODERN_STYLE);
+	public static final ProgressBarBuilder MODERN = new ProgressBarBuilder().style(MODERN_STYLE);
 
-	public static ProgressBarBuilder Minimal = new ProgressBarBuilder().style(MINIMAL_STYLE);
+	public static final ProgressBarBuilder MINIMAL = new ProgressBarBuilder().style(MINIMAL_STYLE);
 
-	public static ProgressBarBuilder Download = new ProgressBarBuilder().left(new EtaTimeLabelProvider())
+	public static final ProgressBarBuilder DOWNLOAD = new ProgressBarBuilder().left(new EtaTimeLabelProvider())
 			.right(UnitLabelProvider.FILE_SIZE_MB);
 
 	private IProgressBarStyle style = new DefaultProgressBarStyle();
