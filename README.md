@@ -50,10 +50,10 @@ ITaskRunnable runnable = new ITaskRunnable() {
 };
 ```
 
-Next, execute your runnable using the `TakService` class:
+Next, execute your runnable using the `TaskService` class:
 
 ```java
-TakService.run(runnable);
+TaskService.run(runnable);
 ```
 
 Relax and enjoy the beautiful ANSI animation:
