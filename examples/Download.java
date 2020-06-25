@@ -7,9 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import lukfor.progress.*;
-import lukfor.progress.labels.*;
-import lukfor.progress.renderer.AnsiProgressBarRenderer;
-import lukfor.progress.renderer.*;
+import lukfor.progress.renderer.labels.*;
+import lukfor.progress.renderer.bars.*;
 import lukfor.progress.tasks.AbstractFileTask;
 import lukfor.progress.tasks.AbstractUrlTask;
 import lukfor.progress.tasks.DownloadTask;
@@ -19,15 +18,15 @@ public class Download {
 	public static void main(String[] args) throws IOException {
 
 		// example: "--no-ansi" flag
-		ProgressMonitor.setAnsiSupport(true);
-		ProgressMonitor.setTarget(System.err);
+		TaskService.setAnsiSupport(true);
+		TaskService.setTarget(System.err);
 
 		String url = "http://speedtest.tele2.net/1GB.zip";
 		String file = "test.zip";
 
 		DownloadTask task = new DownloadTask(url, file);
 
-		ProgressMonitor.run(task, ProgressBarBuilder.DOWNLOAD);
+		TaskService.run(task, ProgressBarBuilder.DOWNLOAD);
 
 	}
 

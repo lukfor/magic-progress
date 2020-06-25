@@ -1,14 +1,14 @@
-package lukfor.progress.styles;
+package lukfor.progress.renderer.bars;
 
-import lukfor.progress.IProgressBarStyle;
-import lukfor.progress.IProgressBar;
-import lukfor.progress.ProgressBar;
+import lukfor.progress.renderer.IProgressContentProvider;
+import lukfor.progress.tasks.monitors.ITaskMonitor;
+import lukfor.progress.tasks.monitors.TaskMonitor;
 import lukfor.progress.util.AnsiColors;
 
-public class AbstractProgressBarStyle implements IProgressBarStyle {
+public class AbstractProgressBar implements IProgressContentProvider {
 
 	public static float SPEED = 1 / 100f;
-	
+
 	private String progress = AnsiColors.cyan("#");
 
 	private String tick = AnsiColors.cyan(">");
@@ -68,15 +68,16 @@ public class AbstractProgressBarStyle implements IProgressBarStyle {
 	public void setWidth(int width) {
 		this.width = width;
 	}
-	
-	public String renderBar(ProgressBar bar) {
+
+	@Override
+	public String getContent(TaskMonitor monitor) {
 		String content = getBorderLeft();
 		int width = getWidth() - getBorderLeft().length() - getBorderRight().length();
 
 		String tick = getTick();
 
-		if (bar.getTotal() == IProgressBar.UNKNOWN) {
-			int frame = (int) (bar.getExecutionTime() * SPEED);
+		if (monitor.getTotal() == ITaskMonitor.UNKNOWN) {
+			int frame = (int) (monitor.getExecutionTime() * SPEED);
 			int position = frame % width;
 			if (position > 0) {
 				content += repeat(getEmpty(), position - 1);
@@ -91,11 +92,11 @@ public class AbstractProgressBarStyle implements IProgressBarStyle {
 			}
 		} else {
 
-			int progress = (int) ((width * bar.getWorked()) / bar.getTotal());
+			int progress = (int) ((width * monitor.getWorked()) / monitor.getTotal());
 			content += repeat(getProgress(), progress);
 
 			// no tick needed when done.
-			if (bar.getWorked() == bar.getTotal()) {
+			if (monitor.getWorked() == monitor.getTotal()) {
 				tick = null;
 			}
 			if (tick != null) {
@@ -109,11 +110,11 @@ public class AbstractProgressBarStyle implements IProgressBarStyle {
 		}
 
 		content += getBorderRight();
-		
+
 		return content;
-		
+
 	}
-	
+
 	protected String repeat(String string, int count) {
 		String result = "";
 		for (int i = 0; i < count; i++) {
@@ -121,6 +122,5 @@ public class AbstractProgressBarStyle implements IProgressBarStyle {
 		}
 		return result;
 	}
-
 
 }

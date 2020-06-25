@@ -1,83 +1,69 @@
 package lukfor.progress;
 
-import lukfor.progress.labels.DefaultLabelProvider;
-import lukfor.progress.labels.EtaTimeLabelProvider;
-import lukfor.progress.labels.TimeLabelProvider;
-import lukfor.progress.labels.UnitLabelProvider;
-import lukfor.progress.renderer.AnsiProgressBarRenderer;
-import lukfor.progress.renderer.SimpleProgressBarRenderer;
-import lukfor.progress.styles.DefaultProgressBarStyle;
-import lukfor.progress.styles.MinimalProgressBarStyle;
-import lukfor.progress.styles.ModernProgressBarStyle;
-import lukfor.progress.util.AnsiColors;
+import lukfor.progress.renderer.AbstractProgressRenderer;
+import lukfor.progress.renderer.AnimatedProgressRenderer;
+import lukfor.progress.renderer.IProgressContentProvider;
+import lukfor.progress.renderer.StaticProgressRenderer;
+import lukfor.progress.renderer.bars.DefaultProgressBar;
+import lukfor.progress.renderer.bars.MinimalProgressBar;
+import lukfor.progress.renderer.bars.ModernProgressBar;
+import lukfor.progress.renderer.labels.DefaultLabel;
+import lukfor.progress.renderer.labels.EtaTimeLabel;
+import lukfor.progress.renderer.labels.TimeLabel;
+import lukfor.progress.renderer.labels.UnitLabel;
 
 public class ProgressBarBuilder {
 
-	public static final IProgressBarStyle DEFAULT_STYLE = new DefaultProgressBarStyle();
+	public static final IProgressContentProvider DEFAULT_STYLE = new DefaultProgressBar();
 
-	public static final IProgressBarStyle MODERN_STYLE = new ModernProgressBarStyle();
+	public static final IProgressContentProvider MODERN_STYLE = new ModernProgressBar();
 
-	public static final IProgressBarStyle MINIMAL_STYLE = new MinimalProgressBarStyle();
+	public static final IProgressContentProvider MINIMAL_STYLE = new MinimalProgressBar();
 
-	public static final ProgressBarBuilder DEFAULT = new ProgressBarBuilder().style(DEFAULT_STYLE);
+	public static final ProgressBarBuilder DEFAULT = new ProgressBarBuilder().components(new TimeLabel(), DEFAULT_STYLE,
+			new DefaultLabel());
 
-	public static final ProgressBarBuilder MODERN = new ProgressBarBuilder().style(MODERN_STYLE);
+	public static final ProgressBarBuilder MODERN = new ProgressBarBuilder().components(new TimeLabel(), MODERN_STYLE,
+			new DefaultLabel());
 
-	public static final ProgressBarBuilder MINIMAL = new ProgressBarBuilder().style(MINIMAL_STYLE);
+	public static final ProgressBarBuilder MINIMAL = new ProgressBarBuilder().components(new TimeLabel(), MINIMAL_STYLE,
+			new DefaultLabel());
 
-	public static final ProgressBarBuilder DOWNLOAD = new ProgressBarBuilder().left(new EtaTimeLabelProvider())
-			.right(UnitLabelProvider.FILE_SIZE_MB);
+	public static final ProgressBarBuilder DOWNLOAD = new ProgressBarBuilder().components(new EtaTimeLabel(),
+			DEFAULT_STYLE, UnitLabel.FILE_SIZE_MB);
 
-	private IProgressBarStyle style = new DefaultProgressBarStyle();
+	public static final ProgressBarBuilder FILE = new ProgressBarBuilder().components(new EtaTimeLabel(),
+			DEFAULT_STYLE, UnitLabel.FILE_SIZE_MB);
+	
+	private IProgressContentProvider components[] = new IProgressContentProvider[] { new TimeLabel(),
+			new DefaultProgressBar(), new DefaultLabel() };
 
-	private IProgressBarLabelProvider left[] = new IProgressBarLabelProvider[] { new TimeLabelProvider() };
-
-	private IProgressBarLabelProvider right[] = new IProgressBarLabelProvider[] { new DefaultLabelProvider() };
-
-	private boolean ansi = true;
+	private boolean animated = true;
 
 	public ProgressBarBuilder() {
 
 	}
 
-	public ProgressBarBuilder style(IProgressBarStyle style) {
-		this.style = style;
+	public ProgressBarBuilder animated(boolean animated) {
+		this.animated = animated;
 		return this;
 	}
 
-	public ProgressBarBuilder left(IProgressBarLabelProvider... left) {
-		this.left = left;
+	public ProgressBarBuilder components(IProgressContentProvider... components) {
+		this.components = components;
 		return this;
 	}
 
-	public ProgressBarBuilder right(IProgressBarLabelProvider... right) {
-		this.right = right;
-		return this;
-	}
+	public AbstractProgressRenderer build() {
 
-	public ProgressBarBuilder ansi(boolean ansi) {
-		this.ansi = ansi;
-		return this;
-	}
+		AbstractProgressRenderer renderer = null;
 
-	public AbstractProgressBarRenderer build() {
-
-		if (ansi) {
-			AnsiColors.enable();
+		if (animated) {
+			renderer = new AnimatedProgressRenderer();
 		} else {
-			AnsiColors.disable();
+			renderer = new StaticProgressRenderer();
 		}
-
-		AbstractProgressBarRenderer renderer = null;
-
-		if (ansi) {
-			renderer = new AnsiProgressBarRenderer();
-		} else {
-			renderer = new SimpleProgressBarRenderer();
-		}
-		renderer.setStyle(style);
-		renderer.setLeft(left);
-		renderer.setRight(right);
+		renderer.setComponents(components);
 		return renderer;
 
 	}

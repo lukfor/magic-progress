@@ -1,8 +1,8 @@
-package lukfor.progress.styles;
+package lukfor.progress.renderer.bars;
 
 import lukfor.progress.util.AnsiColors;
 
-public class DefaultProgressBarStyle extends AbstractProgressBarStyle {
+public class DefaultProgressBar extends AbstractProgressBar {
 
 	private String progress = AnsiColors.cyan("#");
 

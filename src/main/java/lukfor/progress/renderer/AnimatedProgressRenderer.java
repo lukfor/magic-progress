@@ -1,15 +1,12 @@
 package lukfor.progress.renderer;
 
-import lukfor.progress.AbstractProgressBarRenderer;
-import lukfor.progress.IProgressBarLabelProvider;
-
-public class AnsiProgressBarRenderer extends AbstractProgressBarRenderer {
+public class AnimatedProgressRenderer extends AbstractProgressRenderer {
 
 	public static float FRAME_RATE = 1 / 10f;
 
 	private long renderTime = 0;
 
-	public AnsiProgressBarRenderer() {
+	public AnimatedProgressRenderer() {
 
 	}
 
@@ -47,22 +44,10 @@ public class AnsiProgressBarRenderer extends AbstractProgressBarRenderer {
 	public String buildAnsiString() {
 
 		String content = "";
-		if (left != null && left.length > 0) {
-			for (IProgressBarLabelProvider l : left) {
-				if (l != null) {
-					content += l.getLabel(bar);
-				}
-			}
-		}
-
-		if (style != null) {
-			content += style.renderBar(bar);
-		}
-
-		if (right != null && right.length > 0) {
-			for (IProgressBarLabelProvider r : right) {
-				if (r != null) {
-					content += r.getLabel(bar);
+		if (components != null && components.length > 0) {
+			for (IProgressContentProvider component : components) {
+				if (component != null) {
+					content += component.getContent(monitor);
 				}
 			}
 		}

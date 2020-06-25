@@ -1,6 +1,8 @@
-package lukfor.progress;
+package lukfor.progress.tasks.monitors;
 
-public class ProgressBar implements IProgressBar {
+import lukfor.progress.renderer.IProgressRenderer;
+
+public class TaskMonitor implements ITaskMonitor {
 
 	private long worked = 0;
 
@@ -10,7 +12,7 @@ public class ProgressBar implements IProgressBar {
 
 	private long startTime = -1;
 
-	private IProgressBarRenderer renderer;
+	private IProgressRenderer renderer;
 
 	@Override
 	public void beginTask(String name, long totalWork) {
@@ -23,33 +25,23 @@ public class ProgressBar implements IProgressBar {
 	}
 
 	@Override
+	public void beginTask(String name) {
+		this.task = name;
+		this.total = UNKNOWN;
+		this.startTime = System.currentTimeMillis();
+		if (renderer != null) {
+			renderer.begin();
+		}
+	}
+
+	@Override
 	public void done() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean isCanceled() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setCanceled(boolean value) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void setTaskName(String name) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void subTask(String name) {
-		// TODO Auto-generated method stub
-
+		this.startTime = System.currentTimeMillis();
 	}
 
 	@Override
@@ -76,7 +68,7 @@ public class ProgressBar implements IProgressBar {
 		}
 	}
 
-	public void setRenderer(IProgressBarRenderer renderer) {
+	public void setRenderer(IProgressRenderer renderer) {
 		this.renderer = renderer;
 	}
 

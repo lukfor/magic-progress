@@ -3,11 +3,10 @@ package lukfor.progress.tasks;
 import java.io.IOException;
 import java.io.InputStream;
 
-import lukfor.progress.IProgressBar;
-import lukfor.progress.ITaskWithProgress;
+import lukfor.progress.tasks.monitors.ITaskMonitor;
 import lukfor.progress.util.CountingInputStream;
 
-public abstract class AbstractStreamTask implements ITaskWithProgress {
+public abstract class AbstractStreamTask implements ITaskRunnable {
 
 	private InputStream stream;
 
@@ -16,7 +15,7 @@ public abstract class AbstractStreamTask implements ITaskWithProgress {
 	}
 
 	@Override
-	public void run(IProgressBar monitor) {
+	public void run(ITaskMonitor monitor) {
 		long size = getSize();
 		monitor.beginTask("Process stream...", size);
 
