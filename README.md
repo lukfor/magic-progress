@@ -65,7 +65,7 @@ Relax and enjoy the beautiful ANSI animation:
 
 ## ANSI support
 
-Out of the box, all progress bars are using ANSI colors to display beautiful and animated bars and prints the content to stdout. However, if you prefer to print the bar to stderr or to disable colors, you can change the default behaviour of `TaskService`:
+Out of the box, all progress bars are using ANSI colors to display beautiful and animated bars and print their content to stdout. However, if you prefer to print the bar to stderr or to disable colors, you can change the default behaviour of `TaskService`:
 
 ```java
 TaskService.setAnsiSupport(true);
