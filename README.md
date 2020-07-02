@@ -50,10 +50,10 @@ ITaskRunnable runnable = new ITaskRunnable() {
 };
 ```
 
-Next, execute your runnable using the `TakService` class:
+Next, execute your runnable using the `TaskService` class:
 
 ```java
-TakService.run(runnable);
+TaskService.run(runnable);
 ```
 
 Relax and enjoy the beautiful ANSI animation:
@@ -61,14 +61,14 @@ Relax and enjoy the beautiful ANSI animation:
 
 ## Examples
 
-`magic-progress` can easily be combined with [jbang](https://jbang.dev/) and [picocli](https://picocli.info/) to give progress feedback for operations which take significant amount of time. There are several [examples](https://github.com/lukfor/magic-progress/tree/master/examples) available to get an overview about its key features and usage.
+`magic-progress` can easily be combined with [jbang](https://jbang.dev/) and [picocli](https://picocli.info/). There are several [examples](https://github.com/lukfor/magic-progress/tree/master/examples) available to get an overview about its key features and usage.
 
 ## ANSI support
 
 Out of the box, all progress bars are using ANSI colors to display beautiful and animated bars and print their content to stdout. However, if you prefer to print the bar to stderr or to disable colors, you can change the default behaviour of `TaskService`:
 
 ```java
-TaskService.setAnsiSupport(true);
+TaskService.setAnsiSupport(false);
 TaskService.setTarget(System.err);
 ```
 
@@ -76,7 +76,7 @@ Based on this static methods it is relatively easy to implement a `--no-ansi` fl
 
 ## Build-in taks
 
-`magic-progress` provides several build-in tasks a for common tasks like file or collection processing.
+`magic-progress` provides several build-in tasks for common tasks like file or collection processing.
 
 ### Collections
 
@@ -101,7 +101,7 @@ TakService.run(task, ProgressBarBuilder.DOWNLOAD);
 
 ## Customization
 
-Sometimes it can be necessary to customize the progress bar appearance. For example, you want to change labels/units or want adapt the style or layout of the bar it self. To enable full customization, `magic-progress` provides the class `ProgressBarBuilder` that enables to combine different components like labels, bars or even more complex and fancy animations.
+Sometimes it can be necessary to customize the progress bar appearance. For example, you want to change labels/units or want adapt the style or layout of the bar it self. To enable full customization, `magic-progress` provides the class `ProgressBarBuilder` that enables to combine different components like labels and bars to build complex and fancy animations.
 
 ### Combining different components
 
