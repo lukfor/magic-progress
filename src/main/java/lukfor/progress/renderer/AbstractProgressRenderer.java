@@ -1,6 +1,8 @@
 package lukfor.progress.renderer;
 
 import java.io.PrintStream;
+import java.util.List;
+import java.util.Vector;
 
 import lukfor.progress.renderer.bars.DefaultProgressBar;
 import lukfor.progress.renderer.labels.DefaultLabel;
@@ -9,7 +11,7 @@ import lukfor.progress.tasks.monitors.TaskMonitor;
 
 public abstract class AbstractProgressRenderer implements IProgressRenderer {
 
-	protected TaskMonitor monitor;
+	protected List<TaskMonitor> monitors = new Vector<TaskMonitor>();;
 
 	protected PrintStream target = System.out;
 
@@ -26,13 +28,13 @@ public abstract class AbstractProgressRenderer implements IProgressRenderer {
 	}
 
 	@Override
-	public void setTaskMonitor(TaskMonitor monitor) {
-		this.monitor = monitor;
+	public void addTaskMonitor(TaskMonitor monitor) {
+		monitors.add(monitor);
 		monitor.setRenderer(this);
 	}
 
-	public TaskMonitor getTaskMonitor() {
-		return monitor;
+	public List<TaskMonitor> getTaskMonitors() {
+		return monitors;
 	}
 
 	public void setComponents(IProgressContentProvider... components) {

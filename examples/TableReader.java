@@ -24,7 +24,7 @@ public class TableReader {
 		// example: "--no-ansi" flag
 		TaskService.setAnsiSupport(true);
 		TaskService.setTarget(System.err);
-
+ 
 		String url = "https://www.stats.govt.nz/assets/Uploads/Business-price-indexes/Business-price-indexes-March-2020-quarter/Download-data/business-price-indexes-march-2020-quarter-csv.csv";
 		String file = "test.csv";
 

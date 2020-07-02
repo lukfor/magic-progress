@@ -12,6 +12,8 @@ public class TaskMonitor implements ITaskMonitor {
 
 	private long startTime = -1;
 
+	private long endTime = -1;
+
 	private IProgressRenderer renderer;
 
 	@Override
@@ -36,7 +38,7 @@ public class TaskMonitor implements ITaskMonitor {
 
 	@Override
 	public void done() {
-
+		this.endTime = System.currentTimeMillis();
 	}
 
 	@Override
@@ -50,6 +52,9 @@ public class TaskMonitor implements ITaskMonitor {
 		if (renderer != null) {
 			renderer.render();
 		}
+		if (worked == total) {
+			this.endTime = System.currentTimeMillis();
+		}
 	}
 
 	public long getWorked() {
@@ -62,7 +67,11 @@ public class TaskMonitor implements ITaskMonitor {
 
 	public long getExecutionTime() {
 		if (startTime > 0) {
-			return System.currentTimeMillis() - startTime;
+			if (endTime > 0) {
+				return endTime - startTime;
+			} else {
+				return System.currentTimeMillis() - startTime;
+			}
 		} else {
 			return -1;
 		}

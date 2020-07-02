@@ -1,12 +1,13 @@
 package lukfor.progress.tasks;
 
 import java.io.PrintStream;
+import java.util.concurrent.Callable;
 
 import lukfor.progress.ProgressBarBuilder;
 import lukfor.progress.renderer.IProgressRenderer;
 import lukfor.progress.tasks.monitors.TaskMonitor;
 
-public class Task {
+public class Task implements Callable<TaskStatus> {
 
 	private IProgressRenderer renderer = new ProgressBarBuilder().build();
 
@@ -14,8 +15,15 @@ public class Task {
 
 	private PrintStream target = System.out;
 
+	private TaskStatus status;
+
+	private TaskMonitor monitor;
+
 	private Task(ITaskRunnable task) {
 		this.task = task;
+		this.status = new TaskStatus(task);
+		renderer.setTarget(target);
+		monitor = new TaskMonitor();
 	}
 
 	public static Task create(ITaskRunnable task) {
@@ -29,6 +37,7 @@ public class Task {
 
 	public Task render(IProgressRenderer renderer) {
 		this.renderer = renderer;
+		this.renderer.addTaskMonitor(monitor);
 		return this;
 	}
 
@@ -37,13 +46,20 @@ public class Task {
 		return this;
 	}
 
-	public TaskStatus run() {
-		renderer.setTarget(target);
-		TaskMonitor monitor = new TaskMonitor();
-		renderer.setTaskMonitor(monitor);
-		task.run(monitor);
-		renderer.finish();
-		return new TaskStatus(task);
+	public TaskStatus call() {
+		status = new TaskStatus(task);
+		try {
+			task.run(monitor);
+			status.setDone(true);
+			renderer.finish();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
+
+	public TaskStatus getStatus() {
+		return status;
 	}
 
 }

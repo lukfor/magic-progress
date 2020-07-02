@@ -10,7 +10,7 @@ public class EtaTimeLabel implements IProgressContentProvider {
 	@Override
 	public String getContent(TaskMonitor monitor) {
 
-		if (monitor.getTotal() == ITaskMonitor.UNKNOWN) {
+		if (monitor.getTotal() == ITaskMonitor.UNKNOWN || monitor.getTotal() == 0 || monitor.getWorked() == 0) {
 
 			return "ETA: unkown";
 

@@ -8,7 +8,7 @@ public interface IProgressRenderer {
 
 	public void setTarget(PrintStream target);
 
-	public void setTaskMonitor(TaskMonitor monitor);
+	public void addTaskMonitor(TaskMonitor monitor);
 
 	public void begin();
 	

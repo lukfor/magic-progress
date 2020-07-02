@@ -1,11 +1,14 @@
 package lukfor.progress;
 
 import java.io.PrintStream;
+import java.util.List;
+import java.util.Vector;
 
+import lukfor.progress.executors.DefaultTaskExecutor;
+import lukfor.progress.executors.ITaskExecutor;
 import lukfor.progress.renderer.IProgressRenderer;
 import lukfor.progress.tasks.ITaskRunnable;
 import lukfor.progress.tasks.Task;
-import lukfor.progress.tasks.TaskStatus;
 import lukfor.progress.util.AnsiColors;
 
 public class TaskService {
@@ -14,18 +17,40 @@ public class TaskService {
 
 	private static PrintStream target = System.out;
 
-	public static TaskStatus run(ITaskRunnable task) {
+	private static ITaskExecutor executor = new DefaultTaskExecutor();
+
+	public static Task run(ITaskRunnable task) {
 		return run(task, new ProgressBarBuilder());
 	}
-
-	public static TaskStatus run(ITaskRunnable task, ProgressBarBuilder builder) {
+	
+	public static List<Task> run(List<ITaskRunnable> tasks) {
+		return run(tasks, new ProgressBarBuilder());
+	}	
+	
+	public static Task run(ITaskRunnable task, ProgressBarBuilder builder) {
 		return run(task, builder.build());
 	}
-
-	public static TaskStatus run(ITaskRunnable task, IProgressRenderer renderer) {
-		return Task.create(task).render(renderer).target(target).run();
+	
+	public static List<Task> run(List<ITaskRunnable> tasks, ProgressBarBuilder builder) {
+		return run(tasks, builder.build());
 	}
 
+	public static Task run(ITaskRunnable runnable, IProgressRenderer renderer) {
+		Task task = Task.create(runnable).render(renderer).target(target);
+		executor.run(task);
+		return task;
+	}
+
+	public static List<Task> run(List<ITaskRunnable> runnables, IProgressRenderer renderer) {
+		List<Task> tasks = new Vector<Task>();
+		for (ITaskRunnable runnable: runnables) {
+			Task task = Task.create(runnable).render(renderer).target(target);
+			tasks.add(task);
+		}
+		executor.run(tasks);
+		return tasks;
+	}
+	
 	public static void setAnsiSupport(boolean ansiSupport) {
 		if (ansiSupport) {
 			AnsiColors.enable();
@@ -46,4 +71,17 @@ public class TaskService {
 	public static PrintStream getTarget() {
 		return target;
 	}
+
+	public static ITaskExecutor getExecutor() {
+		return executor;
+	}
+
+	public static void setExecutor(ITaskExecutor executor) {
+		TaskService.executor = executor;
+	}
+
+	public static void waitForAll() {
+		executor.waitForAll();
+	}
+	
 }

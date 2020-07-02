@@ -25,7 +25,7 @@ public class Download {
 		String file = "test.zip";
 
 		DownloadTask task = new DownloadTask(url, file);
-
+ 
 		TaskService.run(task, ProgressBarBuilder.DOWNLOAD);
 
 	}

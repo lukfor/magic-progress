@@ -8,7 +8,7 @@ public class DefaultLabel implements IProgressContentProvider {
 
 	@Override
 	public String getContent(TaskMonitor monitor) {
-		if (monitor.getTotal() != ITaskMonitor.UNKNOWN) {
+		if (monitor.getTotal() != ITaskMonitor.UNKNOWN || monitor.getTotal() == 0) {
 			return " " + monitor.getWorked() + "/" + monitor.getTotal();
 		} else {
 			return " " + monitor.getWorked();

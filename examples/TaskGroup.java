@@ -1,6 +1,10 @@
-
-//REPOS bintry-lukfor-maven=https://dl.bintray.com/lukfor/maven
 //DEPS lukfor:magic-progress:0.0.1
+//DEPS org.fusesource.jansi:jansi:1.18
+
+import java.util.List;
+import java.util.Vector;
+
+import org.fusesource.jansi.AnsiConsole;
 
 import lukfor.progress.*;
 import lukfor.progress.renderer.labels.TaskNameLabel;
@@ -9,45 +13,25 @@ import lukfor.progress.tasks.ITaskRunnable;
 import lukfor.progress.tasks.Task;
 import lukfor.progress.tasks.monitors.ITaskMonitor;
 
-public class Showcase {
+public class TaskGroup {
 
 	public static void main(String[] args) {
 
 		// example: "--no-ansi" flag
 		TaskService.setAnsiSupport(true);
 		TaskService.setTarget(System.err);
- 
-		System.out.println("\n");
-		
-		ITaskRunnable task = createTask(500);
-		
-		ProgressBarBuilder builder = new ProgressBarBuilder();
-		builder.components(new DefaultSpinner(), new TaskNameLabel());
-		TaskService.run(task, builder);
+		TaskService.getExecutor().setThreads(2);
+		AnsiConsole.systemInstall();
 
 		
-		System.out.println("\n");
-
-		ITaskRunnable task0 = createTask(500);
-		TaskService.run(task0);
-
-		System.out.println("\n");
-
-		ITaskRunnable task1 = createTaskUnknown(500);
-		TaskService.run(task1, ProgressBarBuilder.DEFAULT);
-
-		System.out.println("\n");
-
-		ITaskRunnable task2 = createTask(500);
-		TaskService.run(task2, ProgressBarBuilder.MODERN);
-
-		System.out.println("\n");
-
-		ITaskRunnable task3 = createTask(500);
-		TaskService.run(task3, ProgressBarBuilder.MINIMAL);
-
-		System.out.println("\n");
-
+		List<ITaskRunnable> tasks = new Vector<ITaskRunnable>();
+		tasks.add(createTask(500));
+		tasks.add(createTask(600));
+		tasks.add(createTask(400));
+		TaskService.run(tasks, ProgressBarBuilder.DEFAULT);
+		
+		return;
+		
 	}
 
 	public static ITaskRunnable createTask(int max) {
@@ -56,7 +40,7 @@ public class Showcase {
 
 			@Override
 			public void run(ITaskMonitor monitor) {
-				monitor.beginTask("Perform heavy task", max);
+				monitor.beginTask("Downloading Data......", max);
 				for (int i = 0; i < max; i++) {
 					monitor.worked(1);
 					try {
@@ -79,7 +63,7 @@ public class Showcase {
 
 			@Override
 			public void run(ITaskMonitor monitor) {
-				monitor.beginTask("Perform heavy task", -1);
+				monitor.beginTask("Downloading Data......", -1);
 				for (int i = 0; i < max; i++) {
 					monitor.worked(1);
 					try {

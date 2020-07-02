@@ -7,7 +7,7 @@ public class StaticProgressRenderer extends AbstractProgressRenderer {
 
 	@Override
 	public void begin() {
-		target.println(AnsiColors.blue("[Run]") + "  " + monitor.getTask());
+		target.println(AnsiColors.blue("[Run]") + "  " + monitors.get(0).getTask());
 	}
 
 	@Override
@@ -17,7 +17,7 @@ public class StaticProgressRenderer extends AbstractProgressRenderer {
 
 	@Override
 	public void finish() {
-		target.println(AnsiColors.green("[Done]") + " Execution Time: " + TimeUtil.format(monitor.getExecutionTime()));
+		target.println(AnsiColors.green("[Done]") + " Execution Time: " + TimeUtil.format(monitors.get(0).getExecutionTime()));
 	}
 
 }

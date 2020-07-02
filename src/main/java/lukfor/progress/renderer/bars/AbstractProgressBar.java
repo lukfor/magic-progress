@@ -76,7 +76,7 @@ public class AbstractProgressBar implements IProgressContentProvider {
 
 		String tick = getTick();
 
-		if (monitor.getTotal() == ITaskMonitor.UNKNOWN) {
+		if (monitor.getTotal() == ITaskMonitor.UNKNOWN || monitor.getTotal() == 0) {
 			int frame = (int) (monitor.getExecutionTime() * SPEED);
 			int position = frame % width;
 			if (position > 0) {
