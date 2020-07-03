@@ -16,6 +16,8 @@ public class TaskMonitor implements ITaskMonitor {
 
 	private IProgressRenderer renderer;
 
+	private boolean running = false;
+
 	@Override
 	public void beginTask(String name, long totalWork) {
 		this.task = name;
@@ -24,6 +26,7 @@ public class TaskMonitor implements ITaskMonitor {
 		if (renderer != null) {
 			renderer.begin();
 		}
+		this.running = true;
 	}
 
 	@Override
@@ -39,11 +42,12 @@ public class TaskMonitor implements ITaskMonitor {
 	@Override
 	public void done() {
 		this.endTime = System.currentTimeMillis();
+		this.worked = this.total;
 	}
 
 	@Override
 	public void setTaskName(String name) {
-		this.startTime = System.currentTimeMillis();
+		this.task = name;
 	}
 
 	@Override
@@ -83,6 +87,10 @@ public class TaskMonitor implements ITaskMonitor {
 
 	public String getTask() {
 		return task;
+	}
+
+	public boolean isRunning() {
+		return running;
 	}
 
 }

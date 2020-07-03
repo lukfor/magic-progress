@@ -10,7 +10,7 @@ public class AnimatedProgressRenderer extends AbstractProgressRenderer {
 
 	private int lines = 0;
 
-	public static final String ANSI_CSI = (char)27 + "[";
+	public static final String ANSI_CSI = (char) 27 + "[";
 
 	public AnimatedProgressRenderer() {
 
@@ -50,25 +50,30 @@ public class AnimatedProgressRenderer extends AbstractProgressRenderer {
 	public synchronized void finish() {
 
 		String content = buildAnsiString();
-		
+
 		// move cursor up
 		if (lines > 0) {
 			System.out.print(ANSI_CSI + (lines) + "A"); // up xx lines
 		}
-		
+
 		target.print("\r");
 		target.println(content);
 
 		lines = countLines(content);
-		
+
 	}
 
 	public String buildAnsiString() {
 
 		String content = "";
-		int i = 0;
 		for (TaskMonitor monitor : monitors) {
-			i++;
+			if (!monitor.isRunning()) {
+				continue;
+			}
+			if (!content.isEmpty()) {
+				content += "\n";
+			}
+
 			if (components != null && components.length > 0) {
 				for (IProgressContentProvider component : components) {
 					if (component != null) {
@@ -76,9 +81,7 @@ public class AnimatedProgressRenderer extends AbstractProgressRenderer {
 					}
 				}
 			}
-			if (i != monitors.size()) {
-				content += "\n";
-			}
+
 		}
 
 		return content;
