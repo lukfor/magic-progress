@@ -14,18 +14,20 @@ public class TaskMonitor implements ITaskMonitor {
 
 	private long endTime = -1;
 
-	private IProgressRenderer renderer;
+	//private IProgressRenderer renderer;
 
 	private boolean running = false;
+
+	private boolean done = false;
 
 	@Override
 	public void beginTask(String name, long totalWork) {
 		this.task = name;
 		this.total = totalWork;
 		this.running = true;
-		if (renderer != null) {
-			renderer.begin();
-		}
+		//if (renderer != null) {
+		//	renderer.begin();
+		//}
 	}
 
 	@Override
@@ -33,15 +35,17 @@ public class TaskMonitor implements ITaskMonitor {
 		this.task = name;
 		this.total = UNKNOWN;
 		this.running = true;
-		if (renderer != null) {
-			renderer.begin();
-		}
+		//if (renderer != null) {
+		//	renderer.begin();
+		//}
 	}
 
 	@Override
 	public void done() {
 		this.endTime = System.currentTimeMillis();
 		this.worked = this.total;
+		this.running = false;
+		this.done = true;
 	}
 
 	@Override
@@ -52,12 +56,9 @@ public class TaskMonitor implements ITaskMonitor {
 	@Override
 	public void worked(long work) {
 		worked += work;
-		if (renderer != null) {
-			renderer.render(false);
-		}
-		if (worked >= total) {
-			this.endTime = System.currentTimeMillis();
-		}
+		//if (renderer != null) {
+		//	renderer.render(false);
+		//}
 	}
 
 	public long getWorked() {
@@ -69,20 +70,18 @@ public class TaskMonitor implements ITaskMonitor {
 	}
 
 	public long getExecutionTime() {
-		if (startTime > 0) {
-			if (endTime > 0) {
-				return endTime - startTime;
-			} else {
-				return System.currentTimeMillis() - startTime;
-			}
+		if (isDone()) {
+			return endTime - startTime;
+		} else if (isRunning()) {
+			return System.currentTimeMillis() - startTime;
 		} else {
 			return -1;
 		}
 	}
 
-	public void setRenderer(IProgressRenderer renderer) {
+	/*public void setRenderer(IProgressRenderer renderer) {
 		this.renderer = renderer;
-	}
+	}*/
 
 	public String getTask() {
 		return task;
@@ -91,13 +90,18 @@ public class TaskMonitor implements ITaskMonitor {
 	public boolean isRunning() {
 		return running;
 	}
-	
+
+	public boolean isDone() {
+		return done;
+	}
+
 	public void start() {
 		this.running = true;
+		this.done = false;
 		this.startTime = System.currentTimeMillis();
-		if (renderer != null) {
-			renderer.render(true);
-		}
+		//if (renderer != null) {
+		//	renderer.render(true);
+		//}
 	}
 
 }

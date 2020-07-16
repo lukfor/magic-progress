@@ -15,4 +15,7 @@ public interface IProgressRenderer {
 	public void render(boolean force);
 
 	public void finish();
+	
+	public boolean isRunning();
+	
 }

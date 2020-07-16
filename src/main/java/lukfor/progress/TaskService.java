@@ -7,6 +7,7 @@ import java.util.Vector;
 import lukfor.progress.executors.DefaultTaskExecutor;
 import lukfor.progress.executors.ITaskExecutor;
 import lukfor.progress.renderer.IProgressRenderer;
+import lukfor.progress.renderer.RendererThread;
 import lukfor.progress.tasks.ITaskRunnable;
 import lukfor.progress.tasks.Task;
 import lukfor.progress.util.AnsiColors;
@@ -37,6 +38,11 @@ public class TaskService {
 
 	public static Task run(ITaskRunnable runnable, IProgressRenderer renderer) {
 		Task task = Task.create(runnable).render(renderer).target(target);
+		
+		//todo: start renderer thread
+		
+		new Thread(new RendererThread(renderer)).start();
+		
 		executor.run(task);
 		return task;
 	}
@@ -47,6 +53,9 @@ public class TaskService {
 			Task task = Task.create(runnable).render(renderer).target(target);
 			tasks.add(task);
 		}
+		
+		new Thread(new RendererThread(renderer)).start();
+		
 		executor.run(tasks);
 		return tasks;
 	}
@@ -78,10 +87,6 @@ public class TaskService {
 
 	public static void setExecutor(ITaskExecutor executor) {
 		TaskService.executor = executor;
-	}
-
-	public static void waitForAll() {
-		executor.waitForAll();
 	}
 	
 }

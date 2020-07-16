@@ -30,7 +30,6 @@ public abstract class AbstractProgressRenderer implements IProgressRenderer {
 	@Override
 	public void addTaskMonitor(TaskMonitor monitor) {
 		monitors.add(monitor);
-		monitor.setRenderer(this);
 	}
 
 	public List<TaskMonitor> getTaskMonitors() {
@@ -43,6 +42,18 @@ public abstract class AbstractProgressRenderer implements IProgressRenderer {
 
 	public IProgressContentProvider[] getComponents() {
 		return components;
+	}
+
+	@Override
+	public boolean isRunning() {
+
+		for (TaskMonitor monitor : monitors) {
+			if (!monitor.isDone()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

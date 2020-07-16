@@ -1,6 +1,6 @@
 
 //REPOS bintry-lukfor-maven=https://dl.bintray.com/lukfor/maven
-//DEPS lukfor:magic-progress:0.0.1
+//DEPS lukfor:magic-progress:0.1.0
 
 import lukfor.progress.*;
 import lukfor.progress.renderer.labels.TaskNameLabel;

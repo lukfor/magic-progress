@@ -1,4 +1,4 @@
-//DEPS lukfor:magic-progress:0.0.1
+//DEPS lukfor:magic-progress:0.1.0
 //DEPS org.fusesource.jansi:jansi:1.18
 
 import java.util.List;
