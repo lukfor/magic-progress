@@ -16,38 +16,27 @@ public class Showcase {
 		// example: "--no-ansi" flag
 		TaskService.setAnsiSupport(true);
 		TaskService.setTarget(System.err);
- 
-		System.out.println("\n");
-		
+
+		System.out.println();
+
 		ITaskRunnable task = createTask(500);
-		
 		ProgressBarBuilder builder = new ProgressBarBuilder();
 		builder.components(new DefaultSpinner(), new TaskNameLabel());
 		TaskService.run(task, builder);
 
-		
-		System.out.println("\n");
-
 		ITaskRunnable task0 = createTask(500);
 		TaskService.run(task0);
-
-		System.out.println("\n");
 
 		ITaskRunnable task1 = createTaskUnknown(500);
 		TaskService.run(task1, ProgressBarBuilder.DEFAULT);
 
-		System.out.println("\n");
-
 		ITaskRunnable task2 = createTask(500);
 		TaskService.run(task2, ProgressBarBuilder.MODERN);
 
-		System.out.println("\n");
-
 		ITaskRunnable task3 = createTask(500);
 		TaskService.run(task3, ProgressBarBuilder.MINIMAL);
-
-		System.out.println("\n");
-
+		
+		System.out.println();
 	}
 
 	public static ITaskRunnable createTask(int max) {
