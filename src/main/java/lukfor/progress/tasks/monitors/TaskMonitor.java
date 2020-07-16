@@ -37,6 +37,7 @@ public class TaskMonitor implements ITaskMonitor {
 		if (renderer != null) {
 			renderer.begin();
 		}
+		this.running = true;
 	}
 
 	@Override
