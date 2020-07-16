@@ -1,6 +1,7 @@
 # magic-progress
 
 ![build](https://github.com/lukfor/magic-progress/workflows/build/badge.svg)
+[ ![Download](https://api.bintray.com/packages/lukfor/maven/magic-progress/images/download.svg) ](https://bintray.com/lukfor/maven/magic-progress/_latestVersion)
 
 > A java library for simple progress monitoring using animated progress bars on the console.
 
@@ -70,7 +71,7 @@ Relax and enjoy the beautiful ANSI animation:
 
 ![Example](examples/example.gif)
 
-See [Example.java(https://github.com/lukfor/magic-progress/tree/master/examples/Example.java).
+See [Example.java](https://github.com/lukfor/magic-progress/tree/master/examples/Example.java).
 
 ## More examples
 
