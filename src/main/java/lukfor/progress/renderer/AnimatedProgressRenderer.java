@@ -18,15 +18,15 @@ public class AnimatedProgressRenderer extends AbstractProgressRenderer {
 
 	@Override
 	public synchronized void begin() {
-		render();
+		render(true);
 	}
 
 	@Override
-	public synchronized void render() {
+	public synchronized void render(boolean force) {
 
 		float delta = (System.currentTimeMillis() - renderTime) / 1000f;
 
-		if (delta < FRAME_RATE) {
+		if (delta < FRAME_RATE && !force) {
 			return;
 		}
 

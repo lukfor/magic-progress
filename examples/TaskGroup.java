@@ -4,8 +4,6 @@
 import java.util.List;
 import java.util.Vector;
 
-import org.fusesource.jansi.AnsiConsole;
-
 import lukfor.progress.*;
 import lukfor.progress.renderer.labels.TaskNameLabel;
 import lukfor.progress.renderer.spinners.DefaultSpinner;
@@ -21,17 +19,16 @@ public class TaskGroup {
 		TaskService.setAnsiSupport(true);
 		TaskService.setTarget(System.err);
 		TaskService.getExecutor().setThreads(2);
-		AnsiConsole.systemInstall();
 
-		
 		List<ITaskRunnable> tasks = new Vector<ITaskRunnable>();
 		tasks.add(createTask(500));
 		tasks.add(createTask(600));
 		tasks.add(createTask(400));
+		tasks.add(createTask(700));
 		TaskService.run(tasks, ProgressBarBuilder.DEFAULT);
-		
+
 		return;
-		
+
 	}
 
 	public static ITaskRunnable createTask(int max) {

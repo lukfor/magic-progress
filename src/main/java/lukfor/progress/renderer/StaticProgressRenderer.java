@@ -11,7 +11,7 @@ public class StaticProgressRenderer extends AbstractProgressRenderer {
 	}
 
 	@Override
-	public void render() {
+	public void render(boolean force) {
 
 	}
 

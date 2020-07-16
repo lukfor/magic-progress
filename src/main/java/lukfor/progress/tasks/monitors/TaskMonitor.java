@@ -22,22 +22,20 @@ public class TaskMonitor implements ITaskMonitor {
 	public void beginTask(String name, long totalWork) {
 		this.task = name;
 		this.total = totalWork;
-		this.startTime = System.currentTimeMillis();
+		this.running = true;
 		if (renderer != null) {
 			renderer.begin();
 		}
-		this.running = true;
 	}
 
 	@Override
 	public void beginTask(String name) {
 		this.task = name;
 		this.total = UNKNOWN;
-		this.startTime = System.currentTimeMillis();
+		this.running = true;
 		if (renderer != null) {
 			renderer.begin();
 		}
-		this.running = true;
 	}
 
 	@Override
@@ -55,9 +53,9 @@ public class TaskMonitor implements ITaskMonitor {
 	public void worked(long work) {
 		worked += work;
 		if (renderer != null) {
-			renderer.render();
+			renderer.render(false);
 		}
-		if (worked == total) {
+		if (worked >= total) {
 			this.endTime = System.currentTimeMillis();
 		}
 	}
@@ -92,6 +90,14 @@ public class TaskMonitor implements ITaskMonitor {
 
 	public boolean isRunning() {
 		return running;
+	}
+	
+	public void start() {
+		this.running = true;
+		this.startTime = System.currentTimeMillis();
+		if (renderer != null) {
+			renderer.render(true);
+		}
 	}
 
 }

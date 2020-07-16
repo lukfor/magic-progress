@@ -49,6 +49,7 @@ public class Task implements Callable<TaskStatus> {
 	public TaskStatus call() {
 		status = new TaskStatus(task);
 		try {
+			monitor.start();
 			task.run(monitor);
 			status.setDone(true);
 			renderer.finish();

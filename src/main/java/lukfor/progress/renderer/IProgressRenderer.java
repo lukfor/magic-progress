@@ -12,7 +12,7 @@ public interface IProgressRenderer {
 
 	public void begin();
 	
-	public void render();
+	public void render(boolean force);
 
 	public void finish();
 }
