@@ -19,7 +19,7 @@
 		<repository>
 			<id>bintray-lukfor-maven</id>
 			<name>lukfor-maven</name>
-			<url>https://api.bintray.com/maven/lukfor/maven/pgs-calc/;publish=1</url>
+			<url>https://api.bintray.com/maven/lukfor/maven/magic-progress/;publish=1</url>
 		</repository>
 	</distributionManagement>
 
