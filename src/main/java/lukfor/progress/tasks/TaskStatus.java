@@ -6,6 +6,10 @@ public class TaskStatus {
 
 	private boolean done = false;
 
+	private boolean success = false;
+
+	private Throwable throwable;
+
 	public TaskStatus(ITaskRunnable runnable) {
 		this.runnable = runnable;
 	}
@@ -20,6 +24,22 @@ public class TaskStatus {
 
 	public void setDone(boolean done) {
 		this.done = done;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setThrowable(Throwable throwable) {
+		this.throwable = throwable;
+	}
+
+	public Throwable getThrowable() {
+		return throwable;
 	}
 
 }

@@ -52,6 +52,7 @@ public class DefaultTaskExecutor implements ITaskExecutor {
 		try {
 			results = executor.invokeAll(tasks);
 		} catch (InterruptedException e) {
+			System.out.println("OKOK");
 			e.printStackTrace();
 		}
 		

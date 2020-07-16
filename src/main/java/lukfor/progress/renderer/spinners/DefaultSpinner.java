@@ -12,8 +12,12 @@ public class DefaultSpinner implements IProgressContentProvider {
 
 	@Override
 	public String getContent(TaskMonitor monitor) {
-		if (monitor.getWorked() >= monitor.getTotal()) {
-			return AnsiColors.green(" ✔️ ");
+		if (monitor.isDone()) {
+			if (monitor.isSuccess()) {
+				return AnsiColors.green(" ✔️ ");
+			} else {
+				return AnsiColors.red(" ❌");
+			}
 		} else {
 			int frame = getFrame(monitor, FRAME_RATE) % SEQUENCE.length();
 			return AnsiColors.cyan(" " + SEQUENCE.charAt(frame) + " ");
