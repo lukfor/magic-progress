@@ -32,11 +32,11 @@ Include the following dependency:
 
 ## Usage
 
-First, implement the `ITaskRunnable` interface and put your long-running logic into the `run` method. You can use the provided `ITaskMonitor` to report progress:
+First, implement the `ITaskRunnable` interface and put your code into the `run` method. You can use the provided `ITaskMonitor` to report progress:
 
 - Use the `beginTask(..)` method to start a new task and to set the total amoumt of work
 
-- Use the `worked(..)` to notify the monitor about the progress.
+- Use the `worked(..)` method to notify the monitor about the progress.
 
 - Finally, use `done()`
 
@@ -61,7 +61,7 @@ ITaskRunnable runnable = new ITaskRunnable() {
 };
 ```
 
-Next, execute your logic using the `TaskService` class:
+Next, execute it using the `TaskService` class:
 
 ```java
 TaskService.run(runnable);
