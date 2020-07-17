@@ -15,17 +15,13 @@ public abstract class AbstractStreamTask implements ITaskRunnable {
 	}
 
 	@Override
-	public void run(ITaskMonitor monitor) {
+	public void run(ITaskMonitor monitor) throws IOException {
 		long size = getSize();
 		monitor.beginTask("Process stream...", size);
 
 		CountingInputStream countingStream = new CountingInputStream(stream, monitor);
-		try {
-			process(countingStream);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		process(countingStream);
+		monitor.done();
 	}
 
 	public abstract void process(InputStream stream) throws IOException;
