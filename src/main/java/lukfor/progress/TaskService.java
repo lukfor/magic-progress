@@ -32,7 +32,7 @@ public class TaskService {
 		return run(task, builder.build());
 	}
 	
-	public static List<Task> run(List<ITaskRunnable> tasks, ProgressBarBuilder builder) {
+	public static List<Task> run(List<? extends ITaskRunnable> tasks, ProgressBarBuilder builder) {
 		return run(tasks, builder.build());
 	}
 
@@ -47,7 +47,7 @@ public class TaskService {
 		return task;
 	}
 
-	public static List<Task> run(List<ITaskRunnable> runnables, IProgressRenderer renderer) {
+	public static List<Task> run(List<? extends ITaskRunnable> runnables, IProgressRenderer renderer) {
 		List<Task> tasks = new Vector<Task>();
 		for (ITaskRunnable runnable: runnables) {
 			Task task = Task.create(runnable).render(renderer).target(target);
