@@ -124,4 +124,14 @@ public class TaskMonitor implements ITaskMonitor {
 		return throwable;
 	}
 
+	@Override
+	public boolean isCanceled() {
+		return false;
+	}
+
+	@Override
+	public void setCanceled() {
+		
+	}
+
 }

@@ -14,4 +14,8 @@ public interface ITaskMonitor {
 
 	public void worked(long work);
 
+    public boolean isCanceled();
+
+    public void setCanceled();
+    
 }
