@@ -1,5 +1,5 @@
-//DEPS lukfor:magic-progress:0.1.0
-//DEPS org.fusesource.jansi:jansi:1.18
+//REPOS bintry-lukfor-maven=https://dl.bintray.com/lukfor/maven
+//DEPS lukfor:magic-progress:0.2.0
 
 import java.util.List;
 import java.util.Vector;
@@ -15,9 +15,6 @@ public class TaskGroup {
 
 	public static void main(String[] args) {
 
-		// example: "--no-ansi" flag
-		TaskService.setAnsiSupport(true);
-		TaskService.setTarget(System.err);
 		TaskService.getExecutor().setThreads(2);
 
 		List<ITaskRunnable> tasks = new Vector<ITaskRunnable>();

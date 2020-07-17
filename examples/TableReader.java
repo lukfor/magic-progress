@@ -1,6 +1,6 @@
 
 //REPOS bintray-lukfor-maven=https://dl.bintray.com/lukfor/maven,bintray-genepi-maven=https://dl.bintray.com/genepi/maven
-//DEPS lukfor:magic-progress:0.1.0,genepi:genepi-io:1.0.12
+//DEPS lukfor:magic-progress:0.2.0,genepi:genepi-io:1.0.12
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
