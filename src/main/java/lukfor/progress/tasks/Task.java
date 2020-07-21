@@ -50,18 +50,21 @@ public class Task implements Callable<TaskStatus> {
 		status = new TaskStatus(task);
 		try {
 			monitor.start();
+			
 			task.run(monitor);
+			
+			if (!monitor.isDone()) {
+				monitor.done();
+			}			
 			status.setDone(true);
 			status.setSuccess(true);
-			renderer.finish();
 		} catch (Exception e) {
+			if (!monitor.isDone()) {
+				monitor.failed(e);
+			}
 			status.setDone(true);
 			status.setSuccess(false);
 			status.setThrowable(e);
-			monitor.done();
-			monitor.setSuccess(false);
-			monitor.setThrowable(e);
-			renderer.finish();
 		}
 		return status;
 	}

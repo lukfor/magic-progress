@@ -10,11 +10,11 @@ public interface IProgressRenderer {
 
 	public void addTaskMonitor(TaskMonitor monitor);
 
-	public void begin();
+	public void begin(TaskMonitor monitor);
 	
-	public void render(boolean force);
+	public void render();
 
-	public void finish();
+	public void finish(TaskMonitor monitor);
 	
 	public boolean isRunning();
 	

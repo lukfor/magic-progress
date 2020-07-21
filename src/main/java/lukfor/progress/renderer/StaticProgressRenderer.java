@@ -1,23 +1,30 @@
 package lukfor.progress.renderer;
 
+import lukfor.progress.tasks.monitors.TaskMonitor;
 import lukfor.progress.util.AnsiColors;
 import lukfor.progress.util.TimeUtil;
 
 public class StaticProgressRenderer extends AbstractProgressRenderer {
 
 	@Override
-	public void begin() {
-		target.println(AnsiColors.blue("[Run]") + "  " + monitors.get(0).getTask() + "...");
+	public void begin(TaskMonitor monitor) {
+		target.println(AnsiColors.blue("[Run]") + "   " + monitor.getTask() + "...");
 	}
 
 	@Override
-	public void render(boolean force) {
-
+	public void render() {
+		System.out.println("renderer!");
 	}
 
 	@Override
-	public void finish() {
-		target.println(AnsiColors.green("[Done] ") +  monitors.get(0).getTask() + " done! Execution Time: " + TimeUtil.format(monitors.get(0).getExecutionTime()));
+	public void finish(TaskMonitor monitor) {
+		if (monitor.isSuccess()) {
+			target.println(AnsiColors.green("[Done]") + "  " + monitor.getTask() + ". Execution Time: "
+					+ TimeUtil.format(monitor.getExecutionTime()));
+		} else {
+			target.println(
+					AnsiColors.red("[Error]") + " " + monitor.getTask() + " failed: " + monitor.getThrowable());
+		}
 	}
 
 }

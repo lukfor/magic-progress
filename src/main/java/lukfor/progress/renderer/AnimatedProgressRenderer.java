@@ -3,7 +3,7 @@ package lukfor.progress.renderer;
 import lukfor.progress.tasks.monitors.TaskMonitor;
 
 public class AnimatedProgressRenderer extends AbstractProgressRenderer {
-	
+
 	private int lines = 0;
 
 	public static final String ANSI_CSI = (char) 27 + "[";
@@ -13,13 +13,12 @@ public class AnimatedProgressRenderer extends AbstractProgressRenderer {
 	}
 
 	@Override
-	public synchronized void begin() {
-		render(true);
+	public synchronized void begin(TaskMonitor monitor) {
+
 	}
 
 	@Override
-	public synchronized void render(boolean force) {
-
+	public synchronized void render() {
 
 		String content = buildAnsiString();
 
@@ -36,19 +35,7 @@ public class AnimatedProgressRenderer extends AbstractProgressRenderer {
 	}
 
 	@Override
-	public synchronized void finish() {
-
-		String content = buildAnsiString();
-
-		// move cursor up
-		if (lines > 0) {
-			target.print(ANSI_CSI + (lines) + "A"); // up xx lines
-		}
-
-		target.print("\r");
-		target.println(content);
-
-		lines = countLines(content);
+	public synchronized void finish(TaskMonitor monitor) {
 
 	}
 

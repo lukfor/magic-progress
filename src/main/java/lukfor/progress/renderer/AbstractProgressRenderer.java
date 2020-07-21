@@ -30,6 +30,7 @@ public abstract class AbstractProgressRenderer implements IProgressRenderer {
 	@Override
 	public void addTaskMonitor(TaskMonitor monitor) {
 		monitors.add(monitor);
+		monitor.setRenderer(this);
 	}
 
 	public List<TaskMonitor> getTaskMonitors() {

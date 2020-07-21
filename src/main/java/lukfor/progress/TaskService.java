@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import lukfor.progress.executors.DefaultTaskExecutor;
 import lukfor.progress.executors.ITaskExecutor;
+import lukfor.progress.renderer.AnimatedProgressRenderer;
 import lukfor.progress.renderer.IProgressRenderer;
 import lukfor.progress.renderer.RendererThread;
 import lukfor.progress.tasks.ITaskRunnable;
@@ -39,9 +40,10 @@ public class TaskService {
 	public static Task run(ITaskRunnable runnable, IProgressRenderer renderer) {
 		Task task = Task.create(runnable).render(renderer).target(target);
 		
-		//todo: start renderer thread
-		
-		new Thread(new RendererThread(renderer)).start();
+		// start renderer thread only when animated
+		if (renderer instanceof AnimatedProgressRenderer) {
+			new Thread(new RendererThread(renderer)).start();
+		}
 		
 		executor.run(task);
 		return task;
@@ -54,8 +56,11 @@ public class TaskService {
 			tasks.add(task);
 		}
 		
-		new Thread(new RendererThread(renderer)).start();
-		
+		// start renderer thread only when animated
+		if (renderer instanceof AnimatedProgressRenderer) {
+			new Thread(new RendererThread(renderer)).start();
+		}
+				
 		executor.run(tasks);
 		return tasks;
 	}

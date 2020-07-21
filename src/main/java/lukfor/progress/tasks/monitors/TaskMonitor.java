@@ -1,5 +1,7 @@
 package lukfor.progress.tasks.monitors;
 
+import lukfor.progress.renderer.IProgressRenderer;
+
 public class TaskMonitor implements ITaskMonitor {
 
 	private long worked = 0;
@@ -12,7 +14,7 @@ public class TaskMonitor implements ITaskMonitor {
 
 	private long endTime = -1;
 
-	// private IProgressRenderer renderer;
+	private IProgressRenderer renderer;
 
 	private boolean running = false;
 
@@ -27,28 +29,51 @@ public class TaskMonitor implements ITaskMonitor {
 		this.task = name;
 		this.total = totalWork;
 		this.running = true;
-		// if (renderer != null) {
-		// renderer.begin();
-		// }
+		if (renderer != null) {
+			renderer.begin(this);
+		}
 	}
 
 	@Override
 	public void beginTask(String name) {
-		this.task = name;
-		this.total = UNKNOWN;
-		this.running = true;
-		// if (renderer != null) {
-		// renderer.begin();
-		// }
+		beginTask(name, UNKNOWN);
 	}
 
 	@Override
 	public void done() {
+		
+		if (done) {
+			return;
+		}
+		
 		this.endTime = System.currentTimeMillis();
 		this.worked = this.total;
 		this.running = false;
 		this.done = true;
 		this.success = true;
+		
+		if (renderer != null) {
+			renderer.finish(this);
+		}
+	}
+	
+	@Override
+	public void failed(Throwable throwable) {
+		
+		if (done && !success) {
+			return;
+		}
+		
+		this.endTime = System.currentTimeMillis();
+		this.worked = this.total;
+		this.running = false;
+		this.done = true;
+		this.success = false;		
+		this.throwable = throwable;
+		
+		if (renderer != null) {
+			renderer.finish(this);
+		}
 	}
 
 	@Override
@@ -59,9 +84,6 @@ public class TaskMonitor implements ITaskMonitor {
 	@Override
 	public void worked(long work) {
 		worked += work;
-		// if (renderer != null) {
-		// renderer.render(false);
-		// }
 	}
 
 	public long getWorked() {
@@ -82,10 +104,9 @@ public class TaskMonitor implements ITaskMonitor {
 		}
 	}
 
-	/*
-	 * public void setRenderer(IProgressRenderer renderer) { this.renderer =
-	 * renderer; }
-	 */
+	public void setRenderer(IProgressRenderer renderer) {
+		this.renderer = renderer;
+	}
 
 	public String getTask() {
 		return task;
@@ -103,9 +124,6 @@ public class TaskMonitor implements ITaskMonitor {
 		this.running = true;
 		this.done = false;
 		this.startTime = System.currentTimeMillis();
-		// if (renderer != null) {
-		// renderer.render(true);
-		// }
 	}
 
 	public void setSuccess(boolean success) {
@@ -131,7 +149,7 @@ public class TaskMonitor implements ITaskMonitor {
 
 	@Override
 	public void setCanceled() {
-		
+
 	}
 
 }

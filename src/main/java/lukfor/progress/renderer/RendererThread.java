@@ -23,7 +23,7 @@ public class RendererThread implements Runnable {
 			 * if (delta < FRAME_RATE) { return; }
 			 */
 
-			renderer.render(false);
+			renderer.render();
 
 			renderTime = System.currentTimeMillis();
 

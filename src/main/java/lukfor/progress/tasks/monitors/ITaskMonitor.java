@@ -9,6 +9,8 @@ public interface ITaskMonitor {
 	public void beginTask(String name, long totalWork);
 
 	public void done();
+	
+	public void failed(Throwable throwable);
 
 	public void setTaskName(String name);
 

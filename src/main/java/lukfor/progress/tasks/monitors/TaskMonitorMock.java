@@ -16,6 +16,11 @@ public class TaskMonitorMock implements ITaskMonitor {
 	public void done() {
 
 	}
+	
+	@Override
+	public void failed(Throwable throwable) {
+		
+	}
 
 	@Override
 	public void setTaskName(String name) {
