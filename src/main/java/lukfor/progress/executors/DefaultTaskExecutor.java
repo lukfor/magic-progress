@@ -46,16 +46,16 @@ public class DefaultTaskExecutor implements ITaskExecutor {
 	}
 
 	@Override
-	public void run(List<Task> tasks) {
+	public void run(List<? extends Task> tasks) {
 		executor = Executors.newFixedThreadPool(threads);
-		List<Future<TaskStatus>> results  = null;
+		List<Future<TaskStatus>> results = null;
 		try {
 			results = executor.invokeAll(tasks);
 		} catch (InterruptedException e) {
 			System.out.println("OKOK");
 			e.printStackTrace();
 		}
-		
+
 		executor.shutdown();
 	}
 
