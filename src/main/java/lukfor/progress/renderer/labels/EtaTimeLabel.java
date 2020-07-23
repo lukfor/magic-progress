@@ -1,18 +1,18 @@
 package lukfor.progress.renderer.labels;
 
-import lukfor.progress.renderer.IProgressContentProvider;
+import lukfor.progress.renderer.IProgressIndicator;
 import lukfor.progress.tasks.monitors.ITaskMonitor;
 import lukfor.progress.tasks.monitors.TaskMonitor;
 import lukfor.progress.util.TimeUtil;
 
-public class EtaTimeLabel implements IProgressContentProvider {
+public class EtaTimeLabel implements IProgressIndicator {
 
 	@Override
-	public String getContent(TaskMonitor monitor) {
+	public void render(TaskMonitor monitor, StringBuilder buffer) {
 
 		if (monitor.getTotal() == ITaskMonitor.UNKNOWN || monitor.getTotal() == 0 || monitor.getWorked() == 0) {
 
-			return "ETA: unkown";
+			buffer.append("ETA: unkown");
 
 		} else {
 
@@ -23,9 +23,11 @@ public class EtaTimeLabel implements IProgressContentProvider {
 				remaining = 0;
 			}
 
-			return "ETA: " + TimeUtil.format(remaining);
+			buffer.append("ETA: ");
+			buffer.append(TimeUtil.format(remaining));
 
 		}
+
 	}
 
 }

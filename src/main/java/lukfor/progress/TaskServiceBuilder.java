@@ -8,7 +8,7 @@ import lukfor.progress.executors.DefaultTaskExecutor;
 import lukfor.progress.executors.ITaskExecutor;
 import lukfor.progress.renderer.AbstractProgressRenderer;
 import lukfor.progress.renderer.AnimatedProgressRenderer;
-import lukfor.progress.renderer.IProgressContentProvider;
+import lukfor.progress.renderer.IProgressIndicator;
 import lukfor.progress.renderer.RendererThread;
 import lukfor.progress.renderer.StaticProgressRenderer;
 import lukfor.progress.tasks.ITaskRunnable;
@@ -20,7 +20,7 @@ public class TaskServiceBuilder {
 
 	private PrintStream target = System.out;
 
-	private IProgressContentProvider[] components = null;
+	private IProgressIndicator[] components = null;
 
 	private ITaskExecutor executor = new DefaultTaskExecutor();
 
@@ -28,7 +28,7 @@ public class TaskServiceBuilder {
 
 	}
 
-	public TaskServiceBuilder style(IProgressContentProvider... components) {
+	public TaskServiceBuilder style(IProgressIndicator... components) {
 		this.components = components;
 		return this;
 	}

@@ -15,7 +15,7 @@ public abstract class AbstractProgressRenderer implements IProgressRenderer {
 
 	protected PrintStream target = System.out;
 
-	protected IProgressContentProvider components[] = new IProgressContentProvider[] { new TimeLabel(),
+	protected IProgressIndicator components[] = new IProgressIndicator[] { new TimeLabel(),
 			new DefaultProgressBar(), new DefaultLabel() };
 
 	@Override
@@ -37,11 +37,11 @@ public abstract class AbstractProgressRenderer implements IProgressRenderer {
 		return monitors;
 	}
 
-	public void setComponents(IProgressContentProvider... components) {
+	public void setComponents(IProgressIndicator... components) {
 		this.components = components;
 	}
 
-	public IProgressContentProvider[] getComponents() {
+	public IProgressIndicator[] getComponents() {
 		return components;
 	}
 

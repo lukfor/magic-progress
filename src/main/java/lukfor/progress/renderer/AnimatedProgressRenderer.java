@@ -20,7 +20,8 @@ public class AnimatedProgressRenderer extends AbstractProgressRenderer {
 	@Override
 	public synchronized void render() {
 
-		String content = buildAnsiString();
+		StringBuilder content = buildAnsiString();
+		String string = content.toString();
 
 		// move cursor up
 		if (lines > 0) {
@@ -28,9 +29,9 @@ public class AnimatedProgressRenderer extends AbstractProgressRenderer {
 		}
 
 		target.print("\r");
-		target.println(content);
+		target.println(string);
 
-		lines = countLines(content);
+		lines = countLines(string);
 
 	}
 
@@ -39,28 +40,31 @@ public class AnimatedProgressRenderer extends AbstractProgressRenderer {
 		render();
 	}
 
-	public String buildAnsiString() {
+	public StringBuilder buildAnsiString() {
 
-		String content = "";
+		StringBuilder buffer = new StringBuilder();
+
 		for (TaskMonitor monitor : monitors) {
+
 			if (!monitor.isRunning() && !monitor.isDone()) {
 				continue;
 			}
-			if (!content.isEmpty()) {
-				content += "\n";
+
+			if (monitor != monitors.get(0)) {
+				buffer.append("\n");
 			}
 
 			if (components != null && components.length > 0) {
-				for (IProgressContentProvider component : components) {
+				for (IProgressIndicator component : components) {
 					if (component != null) {
-						content += component.getContent(monitor);
+						component.render(monitor, buffer);
 					}
 				}
 			}
 
 		}
 
-		return content;
+		return buffer;
 
 	}
 

@@ -1,13 +1,13 @@
 package lukfor.progress.renderer.labels;
 
-import lukfor.progress.renderer.IProgressContentProvider;
+import lukfor.progress.renderer.IProgressIndicator;
 import lukfor.progress.tasks.monitors.TaskMonitor;
 
-public class TaskNameLabel implements IProgressContentProvider {
+public class TaskNameLabel implements IProgressIndicator {
 
 	@Override
-	public String getContent(TaskMonitor monitor) {
-		return monitor.getTask();
+	public void render(TaskMonitor monitor, StringBuilder buffer) {
+		buffer.append(monitor.getTask());
 	}
 
 }

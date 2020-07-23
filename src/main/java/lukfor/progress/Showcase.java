@@ -1,7 +1,9 @@
 package lukfor.progress;
 
 import static lukfor.progress.Components.DEFAULT;
+import static lukfor.progress.Components.LINE_BREAK;
 import static lukfor.progress.Components.SPINNER;
+import static lukfor.progress.Components.TASK_NAME;
 
 import java.io.IOException;
 
@@ -22,7 +24,7 @@ public class Showcase {
 
 		// TaskService.run(task1, task2, task3);
 
-		TaskService.monitor(SPINNER, DEFAULT).run(task1, task2, task3);
+		TaskService.monitor(SPINNER, TASK_NAME, LINE_BREAK, DEFAULT).run(task1, task2, task3);
 
 		// TaskService.run(tasks, ProgressBarBuilder.DEFAULT.animated(false));
 

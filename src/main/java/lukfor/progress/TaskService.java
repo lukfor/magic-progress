@@ -3,7 +3,7 @@ package lukfor.progress;
 import java.io.PrintStream;
 import java.util.List;
 
-import lukfor.progress.renderer.IProgressContentProvider;
+import lukfor.progress.renderer.IProgressIndicator;
 import lukfor.progress.tasks.ITaskRunnable;
 import lukfor.progress.tasks.Task;
 import lukfor.progress.util.AnsiColors;
@@ -28,7 +28,7 @@ public class TaskService {
 		return getDefaultTaskServiceBuilder().run(runnables);
 	}
 
-	public static TaskServiceBuilder monitor(IProgressContentProvider... components) {
+	public static TaskServiceBuilder monitor(IProgressIndicator... components) {
 		return getDefaultTaskServiceBuilder().style(components);
 	}
 
