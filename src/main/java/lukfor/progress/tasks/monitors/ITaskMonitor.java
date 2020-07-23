@@ -18,6 +18,6 @@ public interface ITaskMonitor {
 
     public boolean isCanceled();
 
-    public void setCanceled();
+    public void setCanceled(boolean canceled);
     
 }

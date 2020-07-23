@@ -13,6 +13,7 @@ import lukfor.progress.renderer.RendererThread;
 import lukfor.progress.renderer.StaticProgressRenderer;
 import lukfor.progress.tasks.ITaskRunnable;
 import lukfor.progress.tasks.Task;
+import lukfor.progress.tasks.TaskFailureStrategy;
 
 public class TaskServiceBuilder {
 
@@ -23,6 +24,8 @@ public class TaskServiceBuilder {
 	private IProgressIndicator[] components = null;
 
 	private ITaskExecutor executor = new DefaultTaskExecutor();
+
+	private TaskFailureStrategy taskFailureStrategy;
 
 	public TaskServiceBuilder() {
 
@@ -53,6 +56,11 @@ public class TaskServiceBuilder {
 		return this;
 	}
 
+	public TaskServiceBuilder onFailure(TaskFailureStrategy taskFailureStrategy) {
+		this.taskFailureStrategy = taskFailureStrategy;
+		return this;
+	}
+
 	public List<Task> run(List<? extends ITaskRunnable> tasks) {
 		ITaskRunnable[] runnables = new ITaskRunnable[tasks.size()];
 		for (int i = 0; i < tasks.size(); i++) {
@@ -65,8 +73,6 @@ public class TaskServiceBuilder {
 
 		AbstractProgressRenderer renderer = null;
 
-		List<Task> tasks = new Vector<Task>();
-
 		if (animated) {
 			renderer = new AnimatedProgressRenderer();
 		} else {
@@ -78,7 +84,9 @@ public class TaskServiceBuilder {
 		}
 
 		renderer.setTarget(target);
+		renderer.setTaskFailureStrategy(taskFailureStrategy);
 
+		List<Task> tasks = new Vector<Task>();
 		for (ITaskRunnable runnable : runnables) {
 			Task task = new Task(runnable, renderer);
 			tasks.add(task);

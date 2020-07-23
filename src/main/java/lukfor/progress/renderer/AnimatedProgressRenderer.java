@@ -37,6 +37,7 @@ public class AnimatedProgressRenderer extends AbstractProgressRenderer {
 
 	@Override
 	public synchronized void finish(TaskMonitor monitor) {
+		super.finish(monitor);
 		render();
 	}
 

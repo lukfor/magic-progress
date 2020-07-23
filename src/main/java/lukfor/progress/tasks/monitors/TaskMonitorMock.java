@@ -38,7 +38,7 @@ public class TaskMonitorMock implements ITaskMonitor {
 	}
 
 	@Override
-	public void setCanceled() {
+	public void setCanceled(boolean canceled) {
 		
 	}
 

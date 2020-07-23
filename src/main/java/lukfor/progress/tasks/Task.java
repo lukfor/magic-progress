@@ -22,17 +22,25 @@ public class Task implements Callable<TaskStatus> {
 		this.renderer = renderer;
 		this.renderer.addTaskMonitor(monitor);
 	}
-	
-	public TaskStatus call() {
+
+	public TaskStatus call() throws InterruptedException {
 		status = new TaskStatus(task);
+
+		if (monitor.isCanceled()) {
+			status.setDone(true);
+			status.setSuccess(false);
+			// status.setCanceled(true);
+			return status;
+		}
+
 		try {
 			monitor.start();
-			
+
 			task.run(monitor);
-			
+
 			if (!monitor.isDone()) {
 				monitor.done();
-			}			
+			}
 			status.setDone(true);
 			status.setSuccess(true);
 		} catch (Exception e) {
@@ -42,11 +50,11 @@ public class Task implements Callable<TaskStatus> {
 			status.setDone(true);
 			status.setSuccess(false);
 			status.setThrowable(e);
+
 		}
 		return status;
 	}
-	
-	
+
 	public IProgressRenderer getRenderer() {
 		return renderer;
 	}

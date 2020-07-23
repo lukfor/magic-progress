@@ -16,8 +16,10 @@ public class DefaultSpinner implements IProgressIndicator {
 		if (monitor.isDone()) {
 			if (monitor.isSuccess()) {
 				buffer.append(AnsiColors.green(" ✔️ "));
-			} else {
+			} else if (monitor.isCanceled()) {
 				buffer.append(AnsiColors.red(" ❌ "));
+			} else {
+				buffer.append(AnsiColors.red(" ⚠️ "));
 			}
 		} else {
 			int frame = getFrame(monitor, FRAME_RATE) % SEQUENCE.length();
