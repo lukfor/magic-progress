@@ -1,7 +1,6 @@
 package lukfor.progress.tasks;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 
 import lukfor.progress.tasks.monitors.ITaskMonitor;
@@ -19,7 +18,7 @@ public abstract class AbstractIteratorTask<e> implements ITaskRunnable {
 
 		assert iterator != null : "iterator should not be null";
 
-		monitor.beginTask("Process collection...", getSize());
+		monitor.begin("Process collection...", getSize());
 
 		process(new MonitorIterator<e>(monitor, iterator));
 		monitor.done();

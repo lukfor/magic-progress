@@ -29,7 +29,7 @@ public class TaskMonitor implements ITaskMonitor {
 	private Throwable throwable;
 
 	@Override
-	public void beginTask(String name, long totalWork) {
+	public void begin(String name, long totalWork) {
 		this.task = name;
 		this.total = totalWork;
 		this.running = true;
@@ -39,8 +39,8 @@ public class TaskMonitor implements ITaskMonitor {
 	}
 
 	@Override
-	public void beginTask(String name) {
-		beginTask(name, UNKNOWN);
+	public void begin(String name) {
+		begin(name, UNKNOWN);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class TaskMonitor implements ITaskMonitor {
 	}
 
 	@Override
-	public void setTaskName(String name) {
+	public void update(String name) {
 		this.task = name;
 	}
 

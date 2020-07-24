@@ -17,7 +17,7 @@ public abstract class AbstractStreamTask implements ITaskRunnable {
 	@Override
 	public void run(ITaskMonitor monitor) throws IOException {
 		long size = getSize();
-		monitor.beginTask("Process stream...", size);
+		monitor.begin("Process stream...", size);
 
 		CountingInputStream countingStream = new CountingInputStream(stream, monitor);
 		process(countingStream);

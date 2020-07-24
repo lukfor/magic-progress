@@ -3,12 +3,12 @@ package lukfor.progress.tasks.monitors;
 public class TaskMonitorMock implements ITaskMonitor {
 
 	@Override
-	public void beginTask(String name) {
+	public void begin(String name) {
 
 	}
 
 	@Override
-	public void beginTask(String name, long totalWork) {
+	public void begin(String name, long totalWork) {
 
 	}
 
@@ -23,7 +23,7 @@ public class TaskMonitorMock implements ITaskMonitor {
 	}
 
 	@Override
-	public void setTaskName(String name) {
+	public void update(String name) {
 
 	}
 

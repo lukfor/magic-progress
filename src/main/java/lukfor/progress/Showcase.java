@@ -33,7 +33,7 @@ public class Showcase {
 
 			@Override
 			public void run(ITaskMonitor monitor) throws IOException {
-				monitor.beginTask(name, max);
+				monitor.begin(name, max);
 				for (int i = 0; i < max; i++) {
 
 					if (monitor.isCanceled()) {
