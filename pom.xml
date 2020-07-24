@@ -1,15 +1,26 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>lukfor</groupId>
 	<artifactId>magic-progress</artifactId>
-	<version>0.2.0</version>
+	<version>0.2.2</version>
 	<packaging>jar</packaging>
 
 	<name>progress</name>
-	<url>http://maven.apache.org</url>
+	<url>http://forer.it/magic-progress</url>
+
+	<developers>
+		<developer>
+			<id>lukfor</id>
+			<name>Lukas Forer</name>
+			<email>lukas@forer.it</email>
+		</developer>
+	</developers>
+	<scm>
+		<url>https://github.com/lukfor/magic-progress</url>
+		<connection>scm:git:https://github.com/lukfor/magic-progress.git</connection>
+		<developerConnection>scm:git:ssh://github.com:lukfor/magic-progress.git</developerConnection>
+	</scm>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
