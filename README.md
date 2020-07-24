@@ -9,36 +9,31 @@
 
 ## Installation
 
-
 Add the following repository to your `pom.xml` or `gradle` file:
 
-```
-<repository>
-  <id>bintray-lukfor-maven</id>
-  <name>bintray</name>
-  <url>https://dl.bintray.com/lukfor/maven</url>
-</repository>
-```
+    <repository>
+      <id>bintray-lukfor-maven</id>
+      <name>bintray</name>
+      <url>https://dl.bintray.com/lukfor/maven</url>
+    </repository>
 
 Include the following dependency:
 
-```
-<dependency>
-  <groupId>lukfor</groupId>
-  <artifactId>magic-progress</artifactId>
-  <version>0.1.0</version>
-</dependency>
-```
+    <dependency>
+      <groupId>lukfor</groupId>
+      <artifactId>magic-progress</artifactId>
+      <version>0.1.0</version>
+    </dependency>
 
 ## Monitor your first Task
 
 First, implement the `ITaskRunnable` interface and put your code into the `run` method. You can use the provided `ITaskMonitor` to report progress:
 
-- Use the `begin(..)` method to start a new task and to set the total amoumt of work
+-   Use the `begin(..)` method to start a new task and to set the total amoumt of work
 
-- Use the `worked(..)` method to notify the monitor about the progress.
+-   Use the `worked(..)` method to notify the monitor about the progress.
 
-- Finally, use `done()`
+-   Finally, use `done()`
 
 Example:
 
@@ -81,6 +76,45 @@ See [Example.java](https://github.com/lukfor/magic-progress/tree/master/examples
 
 ### Iterators and Collections
 
+Use the class `AbstractCollectionTask` to process collections or iterators. No manual progress notification is needed since everything is handled automatically by `AbstractCollectionTask`.
+
+```java
+static class SumTask extends AbstractCollectionTask<Integer> {
+
+		private int sum = 0;
+
+		public SumTask(Vector<Integer> list) {
+			super(list);
+		}
+
+		@Override
+		public void process(Iterator<Integer> iterator) {
+			while (iterator.hasNext()) {
+				sum += iterator.next();
+			}
+		}
+
+		public int getSum() {
+			return sum;
+		}
+
+}
+```
+
+Create a new instance of the task an execute it using the `TaskService` API:
+
+```java
+Vector<Integer> list = new Vector<Integer>();
+for (int i = 0; i < 10000000; i++) {
+	list.add(5);
+}
+
+SumTask task = new SumTask(list);
+TaskService.run(task);
+
+System.out.println("Sum: " + task.getSum());
+```
+
 ### Files and Downloads
 
 ```java
@@ -92,13 +126,9 @@ DownloadTask task = new DownloadTask(url, file);
 TaskService.monitor(Components.DOWNLOAD).run(task);
 ```
 
-### Use Streams with 3th Party Libraries
-
-
 ## Execute Multiple Tasks in Parallel
 
 TODO: submit at once, multiple worker threads, how to implement task cancellation, task failure strategies
-
 
 ## Customizing the Appearance of the Progress Bar
 
