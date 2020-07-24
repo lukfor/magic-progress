@@ -17,7 +17,7 @@
 		</developer>
 	</developers>
 	<scm>
-		<url>https://github.com/lukfor/magic-progress/tree/master</url>
+		<url>https://github.com/lukfor/magic-progress</url>
 		<connection>scm:git:https://github.com/lukfor/magic-progress.git</connection>
 		<developerConnection>scm:git:ssh://github.com:lukfor/magic-progress.git</developerConnection>
 	</scm>
