@@ -52,6 +52,11 @@ public class TaskService {
 		return TaskService.defaultAnimated;
 	}
 
+	public static void setAnsiSupport(boolean ansiSupport) {
+		setAnimated(ansiSupport);
+		setAnsiColors(ansiSupport);
+	}
+	
 	public static void setTarget(PrintStream defaultTarget) {
 		TaskService.defaultTarget = defaultTarget;
 	}
