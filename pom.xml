@@ -1,4 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.lukfor</groupId>
@@ -6,8 +9,16 @@
 	<version>0.3.0</version>
 	<packaging>jar</packaging>
 
-	<name>progress</name>
+	<name>magic-progress</name>
+	<description>A java library for simple progress monitoring on the console</description>
 	<url>http://forer.it/magic-progress</url>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+		</license>
+	</licenses>
 
 	<developers>
 		<developer>
@@ -16,8 +27,9 @@
 			<email>lukas@forer.it</email>
 		</developer>
 	</developers>
+
 	<scm>
-		<url>https://github.com/lukfor/magic-progress</url>
+		<url>https://github.com/lukfor/magic-progress/tree/master</url>
 		<connection>scm:git:https://github.com/lukfor/magic-progress.git</connection>
 		<developerConnection>scm:git:ssh://github.com:lukfor/magic-progress.git</developerConnection>
 	</scm>
