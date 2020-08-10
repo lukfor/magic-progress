@@ -1,11 +1,11 @@
 package lukfor.progress.renderer.bars;
 
-import lukfor.progress.renderer.IProgressContentProvider;
+import lukfor.progress.renderer.IProgressIndicator;
 import lukfor.progress.tasks.monitors.ITaskMonitor;
 import lukfor.progress.tasks.monitors.TaskMonitor;
 import lukfor.progress.util.AnsiColors;
 
-public class AbstractProgressBar implements IProgressContentProvider {
+public class AbstractProgressBar implements IProgressIndicator {
 
 	public static float SPEED = 1 / 100f;
 
@@ -70,8 +70,9 @@ public class AbstractProgressBar implements IProgressContentProvider {
 	}
 
 	@Override
-	public String getContent(TaskMonitor monitor) {
-		String content = getBorderLeft();
+	public void render(TaskMonitor monitor, StringBuilder buffer) {
+
+		buffer.append(getBorderLeft());
 		int width = getWidth() - getBorderLeft().length() - getBorderRight().length();
 
 		String tick = getTick();
@@ -80,45 +81,43 @@ public class AbstractProgressBar implements IProgressContentProvider {
 			int frame = (int) (monitor.getExecutionTime() * SPEED);
 			int position = frame % width;
 			if (position > 0) {
-				content += repeat(getEmpty(), position - 1);
+				buffer.append(repeat(getEmpty(), position - 1));
 			}
 			if (tick != null) {
-				content += tick;
+				buffer.append(tick);
 			} else {
-				content += getProgress();
+				buffer.append(getProgress());
 			}
 			if (width > position) {
-				content += repeat(getEmpty(), width - position - (position == 0 ? 1 : 0));
+				buffer.append(repeat(getEmpty(), width - position - (position == 0 ? 1 : 0)));
 			}
 		} else {
 
 			int progress = (int) ((width * monitor.getWorked()) / monitor.getTotal());
-			content += repeat(getProgress(), progress);
+			buffer.append(repeat(getProgress(), progress));
 
 			// no tick needed when done.
 			if (monitor.getWorked() == monitor.getTotal()) {
 				tick = null;
 			}
 			if (tick != null) {
-				content += tick;
+				buffer.append(tick);
 			}
 
 			// if complete, no tick but progress
 
-			content += repeat(getEmpty(), width - progress - ((tick != null) ? 1 : 0));
+			buffer.append(repeat(getEmpty(), width - progress - ((tick != null) ? 1 : 0)));
 
 		}
 
-		content += getBorderRight();
-
-		return content;
+		buffer.append(getBorderRight());
 
 	}
 
-	protected String repeat(String string, int count) {
-		String result = "";
+	protected StringBuilder repeat(String string, int count) {
+		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < count; i++) {
-			result += string;
+			result.append(string);
 		}
 		return result;
 	}

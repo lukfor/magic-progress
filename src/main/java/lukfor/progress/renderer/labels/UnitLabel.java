@@ -1,10 +1,10 @@
 package lukfor.progress.renderer.labels;
 
-import lukfor.progress.renderer.IProgressContentProvider;
+import lukfor.progress.renderer.IProgressIndicator;
 import lukfor.progress.tasks.monitors.ITaskMonitor;
 import lukfor.progress.tasks.monitors.TaskMonitor;
 
-public class UnitLabel implements IProgressContentProvider {
+public class UnitLabel implements IProgressIndicator {
 
 	private String unit;
 
@@ -26,15 +26,17 @@ public class UnitLabel implements IProgressContentProvider {
 	}
 
 	@Override
-	public String getContent(TaskMonitor monitor) {
+	public void render(TaskMonitor monitor, StringBuilder buffer) {
 
 		float worked = monitor.getWorked() / factor;
 
 		if (monitor.getTotal() != ITaskMonitor.UNKNOWN) {
 			float total = monitor.getTotal() / factor;
-			return String.format(FORMAT, worked, unit, total, unit);
+			String label = String.format(FORMAT, worked, unit, total, unit);
+			buffer.append(label);
 		} else {
-			return String.format(FORMAT_UNKNOWN, worked, unit);
+			String label = String.format(FORMAT_UNKNOWN, worked, unit);
+			buffer.append(label);
 		}
 
 	}

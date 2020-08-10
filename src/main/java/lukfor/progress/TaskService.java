@@ -2,96 +2,79 @@ package lukfor.progress;
 
 import java.io.PrintStream;
 import java.util.List;
-import java.util.Vector;
 
-import lukfor.progress.executors.DefaultTaskExecutor;
-import lukfor.progress.executors.ITaskExecutor;
-import lukfor.progress.renderer.AnimatedProgressRenderer;
-import lukfor.progress.renderer.IProgressRenderer;
-import lukfor.progress.renderer.RendererThread;
+import lukfor.progress.renderer.IProgressIndicator;
 import lukfor.progress.tasks.ITaskRunnable;
 import lukfor.progress.tasks.Task;
+import lukfor.progress.tasks.TaskFailureStrategy;
 import lukfor.progress.util.AnsiColors;
 
 public class TaskService {
 
-	private static boolean ansiSupport = true;
+	private static boolean defaultAnimated = true;
 
-	private static PrintStream target = System.out;
+	private static PrintStream defaultTarget = System.out;
 
-	private static ITaskExecutor executor = new DefaultTaskExecutor();
+	private static int defaultThreads = 1;
 
-	public static Task run(ITaskRunnable task) {
-		return run(task, new ProgressBarBuilder());
-	}
-	
-	public static List<Task> run(List<ITaskRunnable> tasks) {
-		return run(tasks, new ProgressBarBuilder());
-	}	
-	
-	public static Task run(ITaskRunnable task, ProgressBarBuilder builder) {
-		return run(task, builder.build());
-	}
-	
-	public static List<Task> run(List<? extends ITaskRunnable> tasks, ProgressBarBuilder builder) {
-		return run(tasks, builder.build());
+	private static TaskFailureStrategy defaultFailureStrategy = TaskFailureStrategy.IGNORE_FAILURES;
+
+	private TaskService() {
+
 	}
 
-	public static Task run(ITaskRunnable runnable, IProgressRenderer renderer) {
-		Task task = Task.create(runnable).render(renderer).target(target);
-		
-		// start renderer thread only when animated
-		if (renderer instanceof AnimatedProgressRenderer) {
-			new Thread(new RendererThread(renderer)).start();
-		}
-		
-		executor.run(task);
-		return task;
+	protected static TaskServiceBuilder getDefaultTaskServiceBuilder() {
+		return new TaskServiceBuilder().animated(defaultAnimated).threads(defaultThreads).target(defaultTarget)
+				.onFailure(defaultFailureStrategy);
 	}
 
-	public static List<Task> run(List<? extends ITaskRunnable> runnables, IProgressRenderer renderer) {
-		List<Task> tasks = new Vector<Task>();
-		for (ITaskRunnable runnable: runnables) {
-			Task task = Task.create(runnable).render(renderer).target(target);
-			tasks.add(task);
-		}
-		
-		// start renderer thread only when animated
-		if (renderer instanceof AnimatedProgressRenderer) {
-			new Thread(new RendererThread(renderer)).start();
-		}
-				
-		executor.run(tasks);
-		return tasks;
+	public static List<Task> run(ITaskRunnable... runnables) {
+		return getDefaultTaskServiceBuilder().run(runnables);
 	}
-	
-	public static void setAnsiSupport(boolean ansiSupport) {
-		if (ansiSupport) {
+
+	public static TaskServiceBuilder monitor(IProgressIndicator... components) {
+		return getDefaultTaskServiceBuilder().style(components);
+	}
+
+	public static void setAnsiColors(boolean ansiColors) {
+		if (ansiColors) {
 			AnsiColors.enable();
 		} else {
 			AnsiColors.disable();
 		}
-		TaskService.ansiSupport = ansiSupport;
 	}
 
-	public static boolean isAnsiSupport() {
-		return ansiSupport;
+	public static void setAnimated(boolean defaultAnimated) {
+		TaskService.defaultAnimated = defaultAnimated;
 	}
 
-	public static void setTarget(PrintStream target) {
-		TaskService.target = target;
+	public static boolean isAnimated() {
+		return TaskService.defaultAnimated;
+	}
+
+	public static void setAnsiSupport(boolean ansiSupport) {
+		setAnimated(ansiSupport);
+		setAnsiColors(ansiSupport);
+	}
+	
+	public static void setTarget(PrintStream defaultTarget) {
+		TaskService.defaultTarget = defaultTarget;
 	}
 
 	public static PrintStream getTarget() {
-		return target;
+		return TaskService.defaultTarget;
 	}
 
-	public static ITaskExecutor getExecutor() {
-		return executor;
+	public static void setThreads(int defaultThreads) {
+		TaskService.defaultThreads = defaultThreads;
 	}
 
-	public static void setExecutor(ITaskExecutor executor) {
-		TaskService.executor = executor;
+	public static void setFailureStrategy(TaskFailureStrategy defaultFailureStrategy) {
+		TaskService.defaultFailureStrategy = defaultFailureStrategy;
 	}
-	
+
+	public static TaskFailureStrategy getFailureStrategy() {
+		return TaskService.defaultFailureStrategy;
+	}
+
 }

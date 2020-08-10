@@ -4,20 +4,20 @@ public interface ITaskMonitor {
 
 	public final static int UNKNOWN = -1;
 
-	public void beginTask(String name);
-	
-	public void beginTask(String name, long totalWork);
+	public void begin(String name);
+
+	public void begin(String name, long totalWork);
 
 	public void done();
-	
+
 	public void failed(Throwable throwable);
 
-	public void setTaskName(String name);
+	public void update(String name);
 
 	public void worked(long work);
 
-    public boolean isCanceled();
+	public boolean isCanceled();
 
-    public void setCanceled();
-    
+	public void setCanceled(boolean canceled);
+
 }

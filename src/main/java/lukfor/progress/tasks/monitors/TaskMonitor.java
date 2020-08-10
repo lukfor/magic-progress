@@ -1,5 +1,7 @@
 package lukfor.progress.tasks.monitors;
 
+import java.util.concurrent.CancellationException;
+
 import lukfor.progress.renderer.IProgressRenderer;
 
 public class TaskMonitor implements ITaskMonitor {
@@ -22,10 +24,12 @@ public class TaskMonitor implements ITaskMonitor {
 
 	private boolean success = false;
 
+	private boolean canceled = false;
+
 	private Throwable throwable;
 
 	@Override
-	public void beginTask(String name, long totalWork) {
+	public void begin(String name, long totalWork) {
 		this.task = name;
 		this.total = totalWork;
 		this.running = true;
@@ -35,49 +39,49 @@ public class TaskMonitor implements ITaskMonitor {
 	}
 
 	@Override
-	public void beginTask(String name) {
-		beginTask(name, UNKNOWN);
+	public void begin(String name) {
+		begin(name, UNKNOWN);
 	}
 
 	@Override
 	public void done() {
-		
+
 		if (done) {
 			return;
 		}
-		
+
 		this.endTime = System.currentTimeMillis();
 		this.worked = this.total;
 		this.running = false;
 		this.done = true;
 		this.success = true;
-		
-		if (renderer != null) {
-			renderer.finish(this);
-		}
-	}
-	
-	@Override
-	public void failed(Throwable throwable) {
-		
-		if (done && !success) {
-			return;
-		}
-		
-		this.endTime = System.currentTimeMillis();
-		this.worked = this.total;
-		this.running = false;
-		this.done = true;
-		this.success = false;		
-		this.throwable = throwable;
-		
+
 		if (renderer != null) {
 			renderer.finish(this);
 		}
 	}
 
 	@Override
-	public void setTaskName(String name) {
+	public void failed(Throwable throwable) {
+
+		if (done && !success) {
+			return;
+		}
+
+		this.endTime = System.currentTimeMillis();
+
+		this.running = false;
+		this.done = true;
+		this.success = false;
+		this.throwable = throwable;
+
+		if (renderer != null) {
+			renderer.finish(this);
+		}
+	}
+
+	@Override
+	public void update(String name) {
 		this.task = name;
 	}
 
@@ -144,12 +148,22 @@ public class TaskMonitor implements ITaskMonitor {
 
 	@Override
 	public boolean isCanceled() {
-		return false;
+		return canceled;
 	}
 
 	@Override
-	public void setCanceled() {
+	public void setCanceled(boolean canceled) {
+		this.canceled = canceled;
+		this.done = true;
+		this.setThrowable(new CancellationException());
+		if (isRunning()) {
+			this.endTime = this.startTime;
+			if (renderer != null) {
+				renderer.finish(this);
+			}
+		} else {
 
+		}
 	}
 
 }

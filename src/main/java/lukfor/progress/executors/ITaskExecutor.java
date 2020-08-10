@@ -14,6 +14,6 @@ public interface ITaskExecutor {
 
 	public void run(Task... tasks);
 
-	public void run(List<Task> tasks);
+	public void run(List<? extends Task> tasks);
 	
 }

@@ -9,45 +9,42 @@
 
 ## Installation
 
-
 Add the following repository to your `pom.xml` or `gradle` file:
 
-```
-<repository>
-  <id>bintray-lukfor-maven</id>
-  <name>bintray</name>
-  <url>https://dl.bintray.com/lukfor/maven</url>
-</repository>
-```
+    <repository>
+      <id>bintray-lukfor-maven</id>
+      <name>bintray</name>
+      <url>https://dl.bintray.com/lukfor/maven</url>
+    </repository>
 
 Include the following dependency:
 
-```
-<dependency>
-  <groupId>lukfor</groupId>
-  <artifactId>magic-progress</artifactId>
-  <version>0.1.0</version>
-</dependency>
-```
+    <dependency>
+      <groupId>lukfor</groupId>
+      <artifactId>magic-progress</artifactId>
+      <version>0.1.0</version>
+    </dependency>
 
-## Usage
+## Monitor your first Task
 
 First, implement the `ITaskRunnable` interface and put your code into the `run` method. You can use the provided `ITaskMonitor` to report progress:
 
-- Use the `beginTask(..)` method to start a new task and to set the total amoumt of work
+-   Use the `begin(..)` method to start a new task and to set the total amoumt of work
 
-- Use the `worked(..)` method to notify the monitor about the progress.
+-   Use the `worked(..)` method to notify the monitor about the progress.
 
-- Finally, use `done()`
+-   Finally, use `done()`
 
 Example:
 
 ```java
-ITaskRunnable runnable = new ITaskRunnable() {
+ITaskRunnable task = new ITaskRunnable() {
 
 	@Override
 	public void run(ITaskMonitor monitor) {
-		monitor.beginTask("My heavy task", 100);
+
+	monitor.begin("Task Name", 100);
+
 		for (int i = 0; i < 100; i++) {
 			monitor.worked(1);
 			try {
@@ -61,10 +58,10 @@ ITaskRunnable runnable = new ITaskRunnable() {
 };
 ```
 
-Next, execute it using the `TaskService` class:
+Next, use the `TaskService` API to execute the task:
 
 ```java
-TaskService.run(runnable);
+TaskService.run(task);
 ```
 
 Relax and enjoy the beautiful ANSI animation:
@@ -73,30 +70,52 @@ Relax and enjoy the beautiful ANSI animation:
 
 See [Example.java](https://github.com/lukfor/magic-progress/tree/master/examples/Example.java).
 
-## More examples
+## Take Advantage of Built-In Tasks
 
-`magic-progress` can easily be combined with [jbang](https://jbang.dev/) and [picocli](https://picocli.info/). There are several [examples](https://github.com/lukfor/magic-progress/tree/master/examples) available to get an overview about its key features and usage.
+`magic-progress` provides several built-in tasks to process files or collections in an easy and reusable way. The following examples demonstrate some of the most common use cases.
 
-## ANSI support
+### Iterators and Collections
 
-Out of the box, all progress bars are using ANSI colors to display beautiful and animated bars and print their content to stdout. However, if you prefer to print the bar to stderr or to disable colors, you can change the default behavior of `TaskService` with the following flags:
+Use the class `AbstractCollectionTask` to process collections or iterators. No manual progress notification is needed since everything is handled automatically by `AbstractCollectionTask`.
 
 ```java
-TaskService.setAnsiSupport(false);
-TaskService.setTarget(System.err);
+static class SumTask extends AbstractCollectionTask<Integer> {
+
+		private int sum = 0;
+
+		public SumTask(Vector<Integer> list) {
+			super(list);
+		}
+
+		@Override
+		public void process(Iterator<Integer> iterator) {
+			while (iterator.hasNext()) {
+				sum += iterator.next();
+			}
+		}
+
+		public int getSum() {
+			return sum;
+		}
+
+}
 ```
 
-Tip: Use this static method and implement a `--no-ansi` flag and let the user decide to use it.
+Create a new instance of the task an execute it using the `TaskService` API:
 
-## Build-in taks
+```java
+Vector<Integer> list = new Vector<Integer>();
+for (int i = 0; i < 10000000; i++) {
+	list.add(5);
+}
 
-`magic-progress` provides several build-in tasks to process files or collections.
+SumTask task = new SumTask(list);
+TaskService.run(task);
 
-### Collections
+System.out.println("Sum: " + task.getSum());
+```
 
-
-
-### Download
+### Files and Downloads
 
 ```java
 String url = "http://speedtest.tele2.net/1GB.zip";
@@ -104,32 +123,51 @@ String file = "download.zip";
 
 DownloadTask task = new DownloadTask(url, file);
 
-TakService.run(task, ProgressBarBuilder.DOWNLOAD);
+TaskService.monitor(Components.DOWNLOAD).run(task);
 ```
 
-### Files
+## Execute Multiple Tasks in Parallel
 
-### Streams
+```java
+TaskService.setThreads(3);
+TaskService.setFailureStrategy(TaskFailureStrategy.CANCEL_TASKS);
 
-### Integrate existing libraries
+ITaskRunnable task1 = createTask("task1", 500, 100);
+ITaskRunnable task2 = createTask("task2", 600, 200);
+ITaskRunnable task3 = createTask("task3", 800, -1);
 
+TaskService.monitor(SPINNER, TASK_NAME,  DEFAULT).run(task1, task2, task3);
+```
 
+TODO: submit at once, multiple worker threads, how to implement task cancellation, task failure strategies
 
-## Customization
+## Customizing the Appearance of the Progress Bar
 
-Sometimes it can be necessary to customize the progress bar appearance. For example, you want to change labels/units or want adapt the style or layout of the bar it self. To enable full customization, `magic-progress` provides the class `ProgressBarBuilder` that enables to combine different components like labels and bars to build complex and fancy animations.
-
-### Combining different components
+Sometimes it can be necessary to customize the progress bar appearance. For example, you want to change labels/units or want adapt the style or layout of the bar it self. To enable full customization, `magic-progress` provides the possibility to combine different components like labels and bars to build complex and fancy animations.
 
 ### Labels
 
-### Bars
+### Progress Bars and Spinners
 
-### Spinners
+### Creating a Custom Component
 
-### Custom Components
+Components themselves can be created by implementing the `IProgressIndicator` interface.
 
-Components themselves can be created by implementing the `IProgressContentProvider`.
+## ANSI support
+
+Out of the box, all progress bars are using ANSI colors to display beautiful and animated bars and print their content to stdout. However, if you prefer to print the bar to stderr or to disable colors, you can change the default behavior of `TaskService` with the following flags:
+
+```java
+TaskService.setAnimated(false);
+TaskService.setAnsiColors(true);
+TaskService.setTarget(System.err);
+```
+
+Tip: Use this static methods and implement a `--no-ansi` flag and let the user decide to use it.
+
+## More examples
+
+`magic-progress` can easily be combined with [jbang](https://jbang.dev/) and [picocli](https://picocli.info/). There are several [examples](https://github.com/lukfor/magic-progress/tree/master/examples) available to get an overview about its key features and usage.
 
 ## License
 
