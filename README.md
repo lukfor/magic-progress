@@ -20,9 +20,9 @@ Add the following repository to your `pom.xml` or `gradle` file:
 Include the following dependency:
 
     <dependency>
-      <groupId>lukfor</groupId>
+      <groupId>com.github.lukfor</groupId>
       <artifactId>magic-progress</artifactId>
-      <version>0.1.0</version>
+      <version>0.3.0</version>
     </dependency>
 
 ## Monitor your first Task
