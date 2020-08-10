@@ -32,6 +32,10 @@ public class TaskService {
 		return getDefaultTaskServiceBuilder().run(runnables);
 	}
 
+	public static List<Task> run(List<ITaskRunnable> runnables) {
+		return getDefaultTaskServiceBuilder().run(runnables);
+	}
+
 	public static TaskServiceBuilder monitor(IProgressIndicator... components) {
 		return getDefaultTaskServiceBuilder().style(components);
 	}
@@ -56,7 +60,7 @@ public class TaskService {
 		setAnimated(ansiSupport);
 		setAnsiColors(ansiSupport);
 	}
-	
+
 	public static void setTarget(PrintStream defaultTarget) {
 		TaskService.defaultTarget = defaultTarget;
 	}
