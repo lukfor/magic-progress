@@ -43,7 +43,7 @@ ITaskRunnable task = new ITaskRunnable() {
 	@Override
 	public void run(ITaskMonitor monitor) {
 
-    monitor.begin("Task Name", 100);
+	monitor.begin("Task Name", 100);
 
 		for (int i = 0; i < 100; i++) {
 			monitor.worked(1);
@@ -127,6 +127,17 @@ TaskService.monitor(Components.DOWNLOAD).run(task);
 ```
 
 ## Execute Multiple Tasks in Parallel
+
+```java
+TaskService.setThreads(3);
+TaskService.setFailureStrategy(TaskFailureStrategy.CANCEL_TASKS);
+
+ITaskRunnable task1 = createTask("task1", 500, 100);
+ITaskRunnable task2 = createTask("task2", 600, 200);
+ITaskRunnable task3 = createTask("task3", 800, -1);
+
+TaskService.monitor(SPINNER, TASK_NAME,  DEFAULT).run(task1, task2, task3);
+```
 
 TODO: submit at once, multiple worker threads, how to implement task cancellation, task failure strategies
 
