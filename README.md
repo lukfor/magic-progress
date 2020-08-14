@@ -1,7 +1,7 @@
 # magic-progress
 
 ![build](https://github.com/lukfor/magic-progress/workflows/build/badge.svg)
-[ ![Download](https://api.bintray.com/packages/lukfor/maven/magic-progress/images/download.svg) ](https://bintray.com/lukfor/maven/magic-progress/_latestVersion)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.lukfor/magic-progress.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.lukfor%22%20AND%20a:%22magic-progress%22)
 
 > A java library for simple progress monitoring using animated progress bars on the console.
 
