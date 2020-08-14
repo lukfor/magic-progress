@@ -9,23 +9,20 @@
 
 ## Installation
 
-Add the following repository to your `pom.xml` or `gradle` file:
-
-    <repository>
-      <id>bintray-lukfor-maven</id>
-      <name>bintray</name>
-      <url>https://dl.bintray.com/lukfor/maven</url>
-    </repository>
-
-Include the following dependency:
+Add the following dependency to your Maven Project:
 
     <dependency>
       <groupId>com.github.lukfor</groupId>
       <artifactId>magic-progress</artifactId>
-      <version>0.3.0</version>
+      <version>0.3.2</version>
     </dependency>
 
-## Monitor your first Task
+0r include it as a dependency in your Gradle project:
+
+    compile 'com.github.lukfor:magic-progress:0.3.2'
+
+
+## Run your first Task
 
 First, implement the `ITaskRunnable` interface and put your code into the `run` method. You can use the provided `ITaskMonitor` to report progress:
 
